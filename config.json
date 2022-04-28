@@ -1,0 +1,12 @@
+{
+    "general": {   
+        "guild" : "966649159543312434",
+    
+        "commands_path": "commands",
+        "events_path": "events",
+        "books_path" : "books",
+    
+        "main_link": "https://discord.gg/RprqnXR57u",
+        "prefix": "$"
+    }
+}
