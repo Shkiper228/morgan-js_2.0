@@ -17,6 +17,7 @@ const clear = new Command(client, {
             channel: message.channel,
             timeout: 5
         })
+        await message.delete()
         return;
     } 
 
