@@ -11,7 +11,14 @@ const clear = new Command(client, {
 }, async (client, message, args) => {
     const member = await client.guild.members.fetch(message.author.id);
     const roles = member.roles;
-    if(roles.highest.name.toString() != 'leader' && roles.highest.name.toString() != 'admin' && roles.highest.name.toString() != 'support') return;
+    if(roles.highest.name.toString() != 'leader' && roles.highest.name.toString() != 'admin' && roles.highest.name.toString() != 'support') {
+        new ErrorAlarm({
+            description: `Ви не маєте права використовувати цю команду`,
+            channel: message.channel,
+            timeout: 5
+        })
+        return;
+    } 
 
     if(Number(args[0]) % 1 != 0) {
         await message.delete();
