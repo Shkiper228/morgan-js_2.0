@@ -37,7 +37,7 @@ const messageReactionAdd = new Event(client, async (messageReaction, user) => {
         const member = await messageReaction.message.guild.members.fetch(user.id);
         const roles = member.roles;
         if (roles.highest.name.toString() === '@everyone') {
-            await roles.add('969319772493840424', 'Верифікувався'); //замінити
+            await roles.add('704691487857704980', 'Верифікувався'); //замінити
         }
         await messageReaction.users.remove(user);
     }
