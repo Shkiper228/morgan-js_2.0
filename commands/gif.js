@@ -18,7 +18,7 @@ const gif = new Command(client, {
     }
 
 
-    const response = await fetch(`https://api.tenor.com/v1/search?q=${args}&key=${tenor_key}&limit=2`);
+    const response = await fetch(`https://api.tenor.com/v1/search?q=${args}&key=${tenor_key}&limit=4`);
     const result = await response.json();
     if(result.results.length == 0) {
         new ErrorAlarm({

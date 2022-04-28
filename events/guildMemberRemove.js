@@ -19,15 +19,15 @@ const guildMemberRemove = new Event(client, async (member) => {
     await channel.edit({
         permissionOverwrites:[
             {
-                id: this.client.guild.id,
+                id: client.guild.id,
                 allow: 'VIEW_CHANNEL'
             },
             {
-                id: this.client.guild.id,
+                id: client.guild.id,
                 deny: 'SEND_MESSAGES'
             },
             {
-                id: this.client.guild.id,
+                id: client.guild.id,
                 deny: 'ADD_REACTIONS'
             }
         ],

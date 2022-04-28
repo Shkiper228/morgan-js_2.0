@@ -9,6 +9,8 @@ const clear = new Command(client, {
     ownerOnly: false,
     adminOnly: false
 }, async (client, message, args) => {
+    const member = await client.guild.members.fetch(message.author.id);
+    if(member.roles.heighest)
 
     if(Number(args[0]) % 1 != 0) {
         await message.delete();
