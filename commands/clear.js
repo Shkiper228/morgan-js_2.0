@@ -13,7 +13,7 @@ const clear = new Command(client, {
     const roles = member.roles;
     if(roles.highest.name.toString() != 'leader' && roles.highest.name.toString() != 'admin' && roles.highest.name.toString() != 'support') {
         new ErrorAlarm({
-            description: `Ви не маєте права використовувати цю команду`,
+            description: `${member}, ви не маєте права використовувати цю команду`,
             channel: message.channel,
             timeout: 5
         })
