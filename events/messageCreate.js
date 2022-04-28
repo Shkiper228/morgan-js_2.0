@@ -26,13 +26,13 @@ const messageCreate = new Event(client, async message => {
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
         if(rows[0]) {
             const exp = rows[0].experience + Math.floor(Math.random() * 5) + 5;
-            if(exp >= rows[0].level * (2 * rows[0].level + 5)) {
+            if(exp >= (5 * (rows[0].level * rows[0].level) + 50 * rows[0].level + 100)) {
                 rows[0].level++;
                 const console = await client.guild.channels.fetch('704660113750884433');
                 await console.send({
                     content: `${member}`,
                     embeds: [{
-                        description: `Ви досягнули ${rows[0].level} рівень!`,
+                        description: `Ви досягнули ${rows[0].level} рівень! Вітаєм!`,
                         color: '#2D7144'
                     }]
                 })
