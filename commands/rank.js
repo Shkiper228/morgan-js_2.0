@@ -35,7 +35,7 @@ const rank = new Command(client, {
             }
          
             sortedArr.push(unsortedArr[indexMax])
-            log(unsortedArr[indexMax].experience);
+            log(`${unsortedArr[indexMax].experience} ${unsortedArr[indexMax].id}`);
             
             
 
@@ -44,46 +44,21 @@ const rank = new Command(client, {
             unsortedArr.splice(indexMax, 1);
             indexMax = undefined;
          }
-        /*
-        console.log('Масив до сортування:');
-        console.log(f);
-        
-        
-        for(let i = 0; i < 10; i++) {
-           for(let n = 0; n < 10; n++) {
-        
-                if(f[n] == -1) {
-                   continue;
-                }
-        
-                if(f[minIndex] != -1 && minIndex== undefined) {
-                    minIndex = n
-                }
-                if(f[minIndex] > f[n]) {
-                    minIndex = n
-                }    
-           }
-        
-           r.push(f[minIndex])
-        
-           f[minIndex] = -1
-        
-           minIndex = undefined;
-        }
-        
-        console.log('Після');
-        console.log(r);*/
-    })
-    const member = await client.guild.members.fetch(message.author.id);
+         
+
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
         message.channel.send({
             embeds: [{
                 title: `Ранг \`${message.author.tag}\``,
-                description: `\t\t**Досвід:** \`${rows[0].experience}\`\n\t\t**Рівень:** \`${rows[0].level}\``,
+                description: `\t\t**Досвід:** \`${rows[0].experience}\`\n\t\t**Рівень:** \`${rows[0].level}\`\n\t\t**Рейтинг:** \`${indexAuthor}\``,
                 color: '#2D7144'
             }]
         })
     })
+    })
+
+
+    
 })
 
 module.exports = rank;
