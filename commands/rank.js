@@ -13,7 +13,7 @@ const rank = new Command(client, {
         message.channel.send({
             embeds: [{
                 title: `Ранг \`${message.author.tag}\``,
-                description: `Досвід: __${rows[0].experience}__\nРівень: __${rows[0].level}__`,
+                description: `**Досвід:** \`${rows[0].experience}\`\n**Рівень:** \`${rows[0].level}\``,
                 color: '#2D7144'
             }]
         })
