@@ -1,5 +1,6 @@
 const Event = require('../classes/Event.js');
 const log = require('../classes/Logger.js');
+const Math = require('Math')
 
 
 const messageCreate = new Event(client, async message => {
@@ -26,7 +27,8 @@ const messageCreate = new Event(client, async message => {
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
         if(rows[0]) {
             const exp = rows[0].experience + Math.floor(Math.random() * 10) + 15;
-            if(exp >= (5 * (rows[0].level * rows[0].level) + 50 * rows[0].level + 100)) {
+
+            if(exp >= (5 * Math.pow(rows[0].level + 1, 2) + 50 * (rows[0].level + 1) + 100)) {
                 rows[0].level++;
                 const console = await client.guild.channels.fetch('704660113750884433');
                 await console.send({
@@ -72,7 +74,6 @@ const messageCreate = new Event(client, async message => {
             }]})
 
             try {
-
                 await member.ban({reason: 'Реклама посторонніх діскорд серверів'})
             } catch (error) {
                 log(`Не вдалось забанити порушника ${message.author} під ніком ${message.author.username}. Щось пішло не так`, 'error')
@@ -93,23 +94,14 @@ const messageCreate = new Event(client, async message => {
                 await client.owner.send({embeds: [{
                         description: `${message.author} рекламував інший діскорд сервер на сервері _Weisttil_!`
                     }]})
-                
             }
 
             try {
-
-
-
                 await message.delete();
             } catch (error) {
                 log(`Не вдалось забанити порушника ${message.author} під ніком ${message.author.username}. Щось пішло не так`, 'error')
             }
-        
-
-            
-        }
-        
-        
+        } 
     }
     
 

@@ -226,7 +226,7 @@ class Morgan extends Client {
 			id BIGINT NOT NULL ,
 			messages INT NOT NULL DEFAULT 0 ,
 			experience INT NOT NULL DEFAULT 0 ,
-			level INT NOT NULL DEFAULT 1 ,
+			level INT NOT NULL DEFAULT 0 ,
 			PRIMARY KEY (ID)
 			)`
 			)
