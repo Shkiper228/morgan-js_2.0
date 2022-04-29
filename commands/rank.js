@@ -9,7 +9,7 @@ const rank = new Command(client, {
     adminOnly: false
 }, async (client, message, args) => {
     client.connection.query(`SELECT * FROM members`, async (error, rows) => {
-        
+
         /*const indexAuthor = rows.findIndex(row => {
             if(row.id == message.author.id){
                 return true;
@@ -26,25 +26,25 @@ const rank = new Command(client, {
             unsortedArr.push(row);
         })
 
-        
+
         let indexMax;
 
-        for(let i = 0; i < rows.length; i++) {
-            for(let n = 0; n < unsortedArr.length; n++) {
-                if(indexMax == undefined || unsortedArr[indexMax].experience < unsortedArr[n].experience) indexMax = n;
+        for (let i = 0; i < rows.length; i++) {
+            for (let n = 0; n < unsortedArr.length; n++) {
+                if (indexMax == undefined || unsortedArr[indexMax].experience < unsortedArr[n].experience) indexMax = n;
             }
-         
+
             sortedArr.push(unsortedArr[indexMax])
             log(`${unsortedArr[indexMax].experience} ${unsortedArr[indexMax].id}`);
-            
-            
 
-            if(unsortedArr[indexMax].id == message.author.id) indexAuthor = sortedArr.length - 1;
+
+
+            if (unsortedArr[indexMax].id == message.author.id) indexAuthor = sortedArr.length - 1;
 
             unsortedArr.splice(indexMax, 1);
             indexMax = undefined;
-         }
-         
+        }
+
 
 
         await message.channel.send({

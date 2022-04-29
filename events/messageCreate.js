@@ -26,8 +26,12 @@ const messageCreate = new Event(client, async message => {
     //updateXP
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
         if(rows[0]) {
+            let expForNextLvl;
+            for(let i = 0; i < rows[0]; i++){
+                expForNextLvl += 5 * Math.pow(rows[0].level + 1 + i, 2) + 50 * (rows[0].level + 1 + i) + 100;
+            }
             const exp = rows[0].experience + Math.floor(Math.random() * 10) + 15;
-            if(exp >= (5 * Math.pow(rows[0].level + 1, 2) + 50 * (rows[0].level + 1) + 100)) {
+            if(exp >= expForNextLvl) {
                 rows[0].level++;
                 const console = await client.guild.channels.fetch('704660113750884433');
                 await console.send({
