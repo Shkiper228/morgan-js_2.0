@@ -47,18 +47,14 @@ const rank = new Command(client, {
          
 
 
-        awaitmessage.channel.send({
+        await message.channel.send({
             embeds: [{
                 title: `Ранг \`${message.author.tag}\``,
                 description: `\t\t**Досвід:** \`${rows[0].experience}\`\n\t\t**Рівень:** \`${rows[0].level}\`\n\t\t**Рейтинг:** \`${indexAuthor}\``,
                 color: '#2D7144'
             }]
         })
-    
     })
-
-
-    
 })
 
 module.exports = rank;
