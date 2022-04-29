@@ -12,8 +12,9 @@ const rank = new Command(client, {
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
         message.channel.send({
             embeds: [{
-                title: `Ранг ${member}`,
-                description: `Досвід: ${rows[0].experience}\nРівень: ${rows[0].level}`
+                title: `Ранг \`${message.author.tag}\``,
+                description: `Досвід: __${rows[0].experience}__\nРівень: __${rows[0].level}__`,
+                color: '#2D7144'
             }]
         })
     })
