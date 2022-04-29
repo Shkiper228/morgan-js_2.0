@@ -11,7 +11,7 @@ const clear = new Command(client, {
 }, async (client, message, args) => {
     const member = await client.guild.members.fetch(message.author.id);
     const roles = member.roles;
-    if(roles.highest.name.toString() != 'leader' && roles.highest.name.toString() != 'admin' && roles.highest.name.toString() != 'support') {
+    if(roles.highest.name.toString() != 'leader' && roles.highest.name.toString() != 'admin' && roles.highest.name.toString() != 'support' && roles.highest.name.toString() != 'guard') {
         new ErrorAlarm({
             description: `${member}, ви не маєте права використовувати цю команду`,
             channel: message.channel,
