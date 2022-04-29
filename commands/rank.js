@@ -4,7 +4,7 @@ const log = require('../classes/Logger.js');
 
 const rank = new Command(client, {
     name: 'rank',
-    description: 'Команда для допомоги з командами(яку ви щойно написали)',
+    description: 'Команда для відображення досвіду, рівня та рейтингу',
     ownerOnly: false,
     adminOnly: false
 }, async (client, message, args) => {
