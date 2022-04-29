@@ -39,7 +39,7 @@ const rank = new Command(client, {
             
             
 
-            if(unsortedArr[indexMax] == message.author.id) indexAuthor = sortedArr.length - 1;
+            if(unsortedArr[indexMax].experience == message.author.id) indexAuthor = sortedArr.length - 1;
 
             unsortedArr.splice(indexMax, 1);
             indexMax = undefined;
@@ -50,7 +50,7 @@ const rank = new Command(client, {
         await message.channel.send({
             embeds: [{
                 title: `Ранг \`${message.author.tag}\``,
-                description: `\t\t**Досвід:** \`${rows[0].experience}\`\n\t\t**Рівень:** \`${rows[0].level}\`\n\t\t**Рейтинг:** \`${indexAuthor}\``,
+                description: `\t\t**Досвід:** \`${sortedArr[indexAuthor].experience}\`\n\t\t**Рівень:** \`${sortedArr[indexAuthor].level}\`\n\t\t**Рейтинг:** \`${indexAuthor}\``,
                 color: '#2D7144'
             }]
         })
