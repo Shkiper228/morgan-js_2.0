@@ -31,7 +31,7 @@ const messageCreate = new Event(client, async message => {
                 expForNextLvl += (5 * Math.pow(i, 2)) + (50 * i) + 100;
                 
             }
-            log(expForNextLvl)
+
             const exp = rows[0].experience + Math.floor(Math.random() * 10) + 15;
             if(exp >= expForNextLvl) {
                 rows[0].level++;

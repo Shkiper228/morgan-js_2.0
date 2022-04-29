@@ -9,14 +9,6 @@ const rank = new Command(client, {
     adminOnly: false
 }, async (client, message, args) => {
     client.connection.query(`SELECT * FROM members`, (error, rows) => {
-
-        /*const indexAuthor = rows.findIndex(row => {
-            if(row.id == message.author.id){
-                return true;
-            }
-        })*/
-
-
         let indexAuthor;
 
         const unsortedArr = [];
@@ -35,9 +27,6 @@ const rank = new Command(client, {
             }
 
             sortedArr.push(unsortedArr[indexMax])
-            log(`${unsortedArr[indexMax].experience} ${unsortedArr[indexMax].id}`);
-
-
 
             if (unsortedArr[indexMax].id == message.author.id) indexAuthor = sortedArr.length - 1;
 
