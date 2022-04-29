@@ -50,7 +50,7 @@ const rank = new Command(client, {
         await message.channel.send({
             embeds: [{
                 title: `Ранг \`${message.author.tag}\``,
-                description: `\t\t**Досвід:** \`${sortedArr[indexAuthor].experience}\`\n\t\t**Рівень:** \`${sortedArr[indexAuthor].level}\`\n\t\t**Рейтинг:** \`${indexAuthor + 1}\``,
+                description: `**Досвід:** \t\t\`${sortedArr[indexAuthor].experience}\`\n**Рівень:** \t\t\`${sortedArr[indexAuthor].level}\`\n**Рейтинг:** \t\t\`${indexAuthor + 1}\``,
                 color: '#2D7144'
             }]
         })
