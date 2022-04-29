@@ -39,7 +39,7 @@ const rank = new Command(client, {
             
             
 
-            if(unsortedArr[indexMax].experience == message.author.id) indexAuthor = sortedArr.length - 1;
+            if(unsortedArr[indexMax].id == message.author.id) indexAuthor = sortedArr.length - 1;
 
             unsortedArr.splice(indexMax, 1);
             indexMax = undefined;
