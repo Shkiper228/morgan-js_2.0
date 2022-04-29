@@ -1,6 +1,6 @@
 const Event = require('../classes/Event.js');
 const log = require('../classes/Logger.js');
-const Math = require('Math')
+
 
 
 const messageCreate = new Event(client, async message => {
@@ -27,7 +27,6 @@ const messageCreate = new Event(client, async message => {
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
         if(rows[0]) {
             const exp = rows[0].experience + Math.floor(Math.random() * 10) + 15;
-
             if(exp >= (5 * Math.pow(rows[0].level + 1, 2) + 50 * (rows[0].level + 1) + 100)) {
                 rows[0].level++;
                 const console = await client.guild.channels.fetch('704660113750884433');
