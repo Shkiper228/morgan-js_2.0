@@ -31,15 +31,17 @@ const rank = new Command(client, {
 
         for(let i = 0; i < rows.length; i++) {
             for(let n = 0; n < unsortedArr.length; n++) {
-                if(indexMax == undefined || rows[indexMax].experience < rows[n].experience) indexMax = n;
+                if(indexMax == undefined || unsortedArr[indexMax].experience < unsortedArr[n].experience) indexMax = n;
             }
          
-            sortedArr.push(rows[indexMax])
-            unsortedArr.splice(indexMax, 1);
-            log(rows[indexMax].experience);
-
-            if(rows[indexMax] == message.author.id) indexAuthor = sortedArr.length - 1;
+            sortedArr.push(unsortedArr[indexMax])
+            log(unsortedArr[indexMax].experience);
             
+            
+
+            if(unsortedArr[indexMax] == message.author.id) indexAuthor = sortedArr.length - 1;
+
+            unsortedArr.splice(indexMax, 1);
             indexMax = undefined;
          }
         /*
