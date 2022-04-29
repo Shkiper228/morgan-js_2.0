@@ -71,9 +71,6 @@ const rank = new Command(client, {
         
         console.log('Після');
         console.log(r);*/
-        rows.forEach((row, index) => {
-            if(max == undefined || max < row.experience)
-        });
     })
     const member = await client.guild.members.fetch(message.author.id);
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
