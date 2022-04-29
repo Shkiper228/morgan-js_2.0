@@ -27,7 +27,7 @@ const messageCreate = new Event(client, async message => {
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
         if(rows) {
             let expForNextLvl = 0;
-            for(let i = 0; i < rows[0].level; i++){
+            for(let i = 0; i <= rows[0].level; i++){
                 expForNextLvl += 5 * Math.pow(i + 1, 2) + 50 * (i + 1) + 100;
             }
             const exp = rows[0].experience + Math.floor(Math.random() * 10) + 15;
