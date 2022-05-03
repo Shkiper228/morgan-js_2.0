@@ -102,7 +102,7 @@ const rank = new Command(client, {
 }, async (client, message, args) => {
     let member;
     if (!args[0]) {
-        member = await client.guild.members.fetch(member.id);
+        member = await client.guild.members.fetch(message.author.id);
         
     } else {
         try {
