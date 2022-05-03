@@ -61,8 +61,8 @@ async function formatRankCard(client, canvas, message) {
         expSimple = exp - expForLastLvl;
             
         context.fillStyle = "rgb(80, 200, 120)";
-        for(let i = 0; i < 20; i++) {
-            if((expForNextLvl / 20) * i > expSimple) context.fillStyle = "rgb(37,37,37)";
+        for(let i = 0; i < 19; i++) {
+            if((expForNextLvl / 19) * i > expSimple) context.fillStyle = "rgb(37,37,37)";
             context.fillRect(padding * 2 + i * 25, canvas.height - 38, 20, 20);
         }
 
