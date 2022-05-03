@@ -68,8 +68,10 @@ async function formatRankCard(client, canvas, member, message) {
         context.font = '25px sans-serif';
         context.fillStyle = "rgb(180,180,180)";
         context.fillText(`${cutNum(expSimple)}/${cutNum(expForNextLvl)}`, canvas.width - padding * 2 - 145, canvas.height - padding * 2 - 5);
+        context.fillStyle = "rgb(255,255,255)";
         context.font = '28px sans-serif';
         context.fillText(`${member.user.tag}`, padding * 2 + 5, padding * 2 + avatar.height + 40);
+        context.fillStyle = "rgb(180,180,180)";
         context.font = '27px sans-serif';
         context.fillText('Ваш рейтинг:', padding * 2 + 5 + avatar.width + 15, padding * 2 + 28);
         context.fillStyle = "rgb(255,255,255)";
@@ -86,7 +88,7 @@ async function formatRankCard(client, canvas, member, message) {
         context.fillStyle = "rgb(180,180,180)";
         context.font = '24px sans-serif';
         context.fillText(`Досвід: ${cutNum(sortedArr[indexAuthor].experience)}`, padding * 2 + 5 + avatar.width + 15, padding * 2 + 90)
-        context.fillText(`Повідомлення: ${cutNum(sortedArr[indexAuthor].messages)}`, padding * 2 + 5 + avatar.width + 210, padding * 2 + 95)
+        context.fillText(`Повідомлення: ${cutNum(sortedArr[indexAuthor].messages)}`, padding * 2 + 5 + avatar.width + 200, padding * 2 + 95)
 
         //format message
         const attachment = new MessageAttachment(canvas.toBuffer(), 'profile-image.png');
