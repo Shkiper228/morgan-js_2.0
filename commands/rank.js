@@ -13,7 +13,7 @@ async function formatRankCard(client, canvas, member, message) {
     
 
     //background
-    context.fillStyle = "rgb(30,30,30)";
+    context.fillStyle = "rgb(30,40,73)";1E2849
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     //rounded rect
