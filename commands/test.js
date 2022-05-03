@@ -1,5 +1,6 @@
+const {MessageEmbed, MessageActionRow, MessageButton} = require('discord.js');
+const cutNum = require('../utils.js').cutNum;
 const Command = require('../classes/Command.js');
-const {MessageEmbed, MessageActionRow, MessageButton} = require('discord.js')
 const log = require('../classes/Logger.js');
 
 const test = new Command(client, {
@@ -8,18 +9,7 @@ const test = new Command(client, {
     ownerOnly: true,
     adminOnly: false
 }, async (client, message, args) => {
-    const row = new MessageActionRow({
-        components: [new MessageButton({
-            label: 'test',
-            style: 'DANGER',
-            customId: 'TEST'
-        })]
-    })
-
-    message.channel.send({
-        content: '1',
-        components: [row]
-    })
+    log(cutNum(1000000));
 })
 
 module.exports = test;

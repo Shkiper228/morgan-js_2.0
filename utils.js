@@ -1,6 +1,15 @@
 const log = require('./classes/Logger.js');
 const { createCanvas } = require('canvas');
 
+function cutNum(num) {
+    if(num >= 1000000) {
+        return `${Math.floor(num / 100000) * 10}`;
+    } else  if(num >= 1000) {
+        return `${Math.floor(num / 100) * 10}`;
+    }
+}
+
+module.exports.cutNum = cutNum;
 
 async function findOrCreateChannel(client, name) {
     
@@ -29,19 +38,19 @@ async function findOrCreateChannel(client, name) {
 
 module.exports.findOrCreateChannel = findOrCreateChannel;
 
-// function fillRectRadius(context, x, y, width, height, radius) {
-//     context.fillRect(x, y + radius, width, height - 2 * radius);
-//     context.fillRect(x + radius, y, width - 2 * radius, height);
-//     // context.beginPath();
-//     // context.moveTo(x, y + radius);
-//     // context.arcTo(x, y + height, x + radius, y + height, radius);
-//     // context.arcTo(x + width, y + height, x + width, y + height - radius, radius);
-//     // context.arcTo(x + width, y, x + width - radius, y, radius);
-//     // context.arcTo(x, y, x, y + radius, radius);
-//     // context.stroke();
-// }
+function strokeRectRadius(context, x, y, width, height, radius) {
+    context.fillRect(x, y + radius, width, height - 2 * radius);
+    context.fillRect(x + radius, y, width - 2 * radius, height);
+    context.beginPath();
+    context.moveTo(x, y + radius);
+    context.arcTo(x, y + height, x + radius, y + height, radius);
+    context.arcTo(x + width, y + height, x + width, y + height - radius, radius);
+    context.arcTo(x + width, y, x + width - radius, y, radius);
+    context.arcTo(x, y, x, y + radius, radius);
+    context.stroke();
+}
 
-// module.exports.fillRectRadius = fillRectRadius;
+module.exports.strokeRectRadius = strokeRectRadius;
 
 
 function fillRectRadius(context, x, y, width, height, radius) {
@@ -52,7 +61,6 @@ function fillRectRadius(context, x, y, width, height, radius) {
     context.arcTo(x + width, y, x + width - radius, y, radius);
     context.arcTo(x, y, x, y + radius, radius);
     context.fill();
-    //context.stroke();
 }
 
 module.exports.fillRectRadius = fillRectRadius;
