@@ -2,7 +2,7 @@ const { createCanvas, loadImage } = require('canvas');
 const { MessageAttachment } = require('discord.js')
 const Command = require('../classes/Command.js');
 const log = require('../classes/Logger.js');
-const { fillRectRadius } = require('../utils.js');
+const { fillRectRadius, cutNum } = require('../utils.js');
 
 
 async function formatRankCard(client, canvas, message) {
@@ -67,24 +67,24 @@ async function formatRankCard(client, canvas, message) {
         }
 
         context.fillStyle = "rgb(180,180,180)";
-        context.fillText(`${expSimple}/${expForNextLvl}`, canvas.width - padding * 2 - 116, canvas.height - padding * 2 - 5);
+        context.fillText(`${cutNum(expSimple)}/${cutNum(expForNextLvl)}`, canvas.width - padding * 2 - 116, canvas.height - padding * 2 - 5);
         context.fillText(`${message.author.tag}`, padding * 2 + 5, padding * 2 + avatar.height + 40);
         context.fillText('Ваш рейтинг:', padding * 2 + 5 + avatar.width + 15, padding * 2 + 28);
         context.fillStyle = "rgb(255,255,255)";
         context.font = '44px sans-serif';
-        context.fillText(`#${indexAuthor + 1}`, padding * 2 + 5 + avatar.width + 220, padding * 2 + 33);
+        context.fillText(`#${cutNum(indexAuthor + 1)}`, padding * 2 + 5 + avatar.width + 220, padding * 2 + 33);
 
         context.fillStyle = "rgb(180,180,180)";
         context.font = '28px sans-serif';
         context.fillText('Рівень: ', padding * 2 + 5 + avatar.width + 310, padding * 2 + 28)
         context.fillStyle = "rgb(255,255,255)";
         context.font = '44px sans-serif';
-        context.fillText(`${sortedArr[indexAuthor].level}`, padding * 2 + 5 + avatar.width + 415, padding * 2 + 33)
+        context.fillText(`${cutNum(sortedArr[indexAuthor].level)}`, padding * 2 + 5 + avatar.width + 415, padding * 2 + 33)
 
         context.fillStyle = "rgb(180,180,180)";
         context.font = '28px sans-serif';
-        context.fillText(`Досвід: ${sortedArr[indexAuthor].experience}`, padding * 2 + 5 + avatar.width + 15, padding * 2 + 90)
-        context.fillText(`Повідомлення: ${sortedArr[indexAuthor].messages}`, padding * 2 + 5 + avatar.width + 210, padding * 2 + 95)
+        context.fillText(`Досвід: ${cutNum(sortedArr[indexAuthor].experience)}`, padding * 2 + 5 + avatar.width + 15, padding * 2 + 90)
+        context.fillText(`Повідомлення: ${cutNum(sortedArr[indexAuthor].messages)}`, padding * 2 + 5 + avatar.width + 210, padding * 2 + 95)
 
         //format message
         const attachment = new MessageAttachment(canvas.toBuffer(), 'profile-image.png');
