@@ -72,14 +72,14 @@ async function formatRankCard(client, canvas, message) {
         context.fillText('Ваш рейтинг:', padding * 2 + 5 + avatar.width + 15, padding * 2 + 28);
         context.fillStyle = "rgb(255,255,255)";
         context.font = '44px sans-serif';
-        context.fillText(`#${indexAuthor + 1}`, padding * 2 + 5 + avatar.width + 190, padding * 2 + 33);
+        context.fillText(`#${indexAuthor + 1}`, padding * 2 + 5 + avatar.width + 200, padding * 2 + 33);
 
         context.fillStyle = "rgb(180,180,180)";
         context.font = '28px sans-serif';
         context.fillText('Рівень: ', padding * 2 + 5 + avatar.width + 310, padding * 2 + 28)
         context.fillStyle = "rgb(255,255,255)";
         context.font = '44px sans-serif';
-        context.fillText(`${sortedArr[indexAuthor].level}`, padding * 2 + 5 + avatar.width + 402, padding * 2 + 33)
+        context.fillText(`${sortedArr[indexAuthor].level}`, padding * 2 + 5 + avatar.width + 410, padding * 2 + 33)
 
         context.fillStyle = "rgb(180,180,180)";
         context.font = '28px sans-serif';
