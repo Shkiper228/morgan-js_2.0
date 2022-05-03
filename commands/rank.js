@@ -1,13 +1,13 @@
 const { createCanvas, loadImage } = require('canvas');
 const { MessageAttachment } = require('discord.js')
+const ErroAlarm = require('../classes/ErrorAlarm.js')
 const Command = require('../classes/Command.js');
 const log = require('../classes/Logger.js');
 const { fillRectRadius, cutNum } = require('../utils.js');
 
 
-async function formatRankCard(client, canvas, message) {
+async function formatRankCard(client, canvas, member, message) {
     //initialization
-    const member = await client.guild.members.fetch(message.author.id);
     const context = canvas.getContext('2d');
     context.font = '28px sans-serif';
     const padding = 10;
@@ -46,7 +46,7 @@ async function formatRankCard(client, canvas, message) {
 
             sortedArr.push(unsortedArr[indexMax])
 
-            if (unsortedArr[indexMax].id == message.author.id) indexAuthor = sortedArr.length - 1;
+            if (unsortedArr[indexMax].id == member.id) indexAuthor = sortedArr.length - 1;
 
             unsortedArr.splice(indexMax, 1);
             indexMax = undefined;
@@ -68,7 +68,7 @@ async function formatRankCard(client, canvas, message) {
 
         context.fillStyle = "rgb(180,180,180)";
         context.fillText(`${cutNum(expSimple)}/${cutNum(expForNextLvl)}`, canvas.width - padding * 2 - 116, canvas.height - padding * 2 - 5);
-        context.fillText(`${message.author.tag}`, padding * 2 + 5, padding * 2 + avatar.height + 40);
+        context.fillText(`${member.user.tag}`, padding * 2 + 5, padding * 2 + avatar.height + 40);
         context.fillText('Ваш рейтинг:', padding * 2 + 5 + avatar.width + 15, padding * 2 + 28);
         context.fillStyle = "rgb(255,255,255)";
         context.font = '44px sans-serif';
@@ -100,8 +100,30 @@ const rank = new Command(client, {
     ownerOnly: false,
     adminOnly: false
 }, async (client, message, args) => {
+    let member;
+    if (!args[0]) {
+        member = await client.guild.members.fetch(member.id);
+        
+    } else {
+        try {
+            member = await client.guild.members.fetch(args[0]);
+            if(member.user.bot) {
+                new ErroAlarm ({
+                    description: `${message.author} не можна генерувати картку рейтингу для ботів, так як їх досвід не фіксується в базі даних`, 
+                    channel: message.channel
+                })
+                return;
+            }
+        } catch (error) {
+            new ErroAlarm({
+                description: `${message.author} на жаль такого користувача немає на цьому сервері`,
+                channel: message.channel
+            })
+            return;
+        }
+    }
     const canvas = createCanvas(640, 240)
-    formatRankCard(client, canvas, message);
+    formatRankCard(client, canvas, member, message);
 })
 
 module.exports = rank;
