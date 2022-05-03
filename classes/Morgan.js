@@ -103,26 +103,6 @@ class Morgan extends Client {
         
         await begin_message.reactions.removeAll();
         await begin_message.react('✅');
-		
-        /*
-		const begin_channel = await this.guild.channels.fetch(this.config_channels.channel_begin);
-		let message;
-		
-		try {
-			message = await begin_channel.messages.fetch(begin_channel.lastMessageId);
-			log(message.id)
-			message.react('✅');
-            if(message) {
-                log(`В каналі ${begin_channel.name} для верифікації присутні посторонні повідомлення. Усуньте їх для роботи`, 'error')
-            }
-        } catch {
-            message = await begin_channel.send({embeds: [{
-                title: '_*ВЕРИФІКАЦІЯ*_',
-                description: `Ласкаво просимо на сервері! Ви новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила<#704384154925662280>\nТа деяку загальну інформацію<#842853700237656135>\nНажміть реакцію для верифікації`
-            }]});
-			message.react('✅');
-        }
-        */
 	}
 
 	async loadCommands () {
@@ -172,29 +152,6 @@ class Morgan extends Client {
 				client: this,
 				folder_path: `${path}/infoBooks/${folder.toString()}`
 			})
-			/*
-			const channel = channels.find(channel => {
-				if(channel.name.toString().toLowerCase === folder.toString().replace(' ', '-').toLowerCase) return true
-			})
-
-
-			
-			if (channel){
-				const book = new InfoBook({
-					client: this,
-					folder_path: `${path}/infoBooks/${folder.toString()}`,
-					index: this.infoBooks.length
-				});
-				book.start();
-				this.infoBooks.push(book);
-			} else {
-				log(`Каналу для книжки ${folder.toString()} не знайдено. Створюємо...`, 'warning');
-				this.guild.channels.create(folder.toString()).then(channel => {
-					const book = new InfoBook(this, channel.id, `${path}/infoBooks/${folder.toString()}`, this.infoBooks.length);
-					book.start();
-					this.infoBooks.push(book);
-				})
-			}*/
 		})
 	}
 
@@ -222,7 +179,7 @@ class Morgan extends Client {
 
 	
 	async regMembers () {
-		this.connection.query(`CREATE TABLE IF NOT EXISTS members ( 
+		await this.connection.query(`CREATE TABLE IF NOT EXISTS members ( 
 			id BIGINT NOT NULL ,
 			messages INT NOT NULL DEFAULT 0 ,
 			experience INT NOT NULL DEFAULT 0 ,
@@ -232,6 +189,7 @@ class Morgan extends Client {
 			)
 		const members = await this.guild.members.fetch();
 		members.forEach(member => {
+			
 			if(!member.user.bot) {
 				this.connection.query(`SELECT * FROM members WHERE id = ${member.id}`, (error, rows, fields) => {
 					if(rows[0]) return;

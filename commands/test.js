@@ -9,7 +9,7 @@ const test = new Command(client, {
     ownerOnly: true,
     adminOnly: false
 }, async (client, message, args) => {
-    log(cutNum(1000000));
+    log(cutNum(1000000))
 })
 
 module.exports = test;
