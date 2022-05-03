@@ -3,9 +3,9 @@ const { createCanvas } = require('canvas');
 
 function cutNum(num) {
     if(num >= 1000000) {
-        return `${Math.floor(num / 100000) * 10}m`;
+        return `${Math.floor(num / 100000) * 10}M`;
     } else  if(num >= 1000) {
-        return `${Math.floor(num / 100) * 10}k`;
+        return `${Math.floor(num / 100) * 10}K`;
     }
 }
 
