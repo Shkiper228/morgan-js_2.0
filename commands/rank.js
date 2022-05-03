@@ -67,7 +67,7 @@ async function formatRankCard(client, canvas, message) {
         }
 
         context.fillStyle = "rgb(180,180,180)";
-        context.fillText(`${expSimple}/${expForNextLvl}`, canvas.width - padding * 2 - 110, canvas.height - padding * 2 - 5);
+        context.fillText(`${expSimple}/${expForNextLvl}`, canvas.width - padding * 2 - 116, canvas.height - padding * 2 - 5);
         context.fillText(`${message.author.tag}`, padding * 2 + 5, padding * 2 + avatar.height + 40);
         context.fillText('Ваш рейтинг:', padding * 2 + 5 + avatar.width + 15, padding * 2 + 28);
         context.fillStyle = "rgb(255,255,255)";
