@@ -65,7 +65,7 @@ async function formatRankCard(client, canvas, member, message) {
             context.fillRect(padding * 2 + i * 25, canvas.height - 38, 20, 20);
         }
 
-        context.font = '28px sans-serif';
+        context.font = '25px sans-serif';
         context.fillStyle = "rgb(180,180,180)";
         context.fillText(`${cutNum(expSimple)}/${cutNum(expForNextLvl)}`, canvas.width - padding * 2 - 145, canvas.height - padding * 2 - 5);
         context.fillText(`${member.user.tag}`, padding * 2 + 5, padding * 2 + avatar.height + 40);
