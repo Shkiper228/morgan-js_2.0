@@ -42,7 +42,7 @@ class Morgan extends Client {
 		await this.begin_channel.edit({
 			permissionOverwrites:[
 				{
-					id: this.guild.id,
+					id: '704383751224033301',
 					allow: 'READ_MESSAGE_HISTORY'
 				},
 				{
