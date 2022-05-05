@@ -46,7 +46,7 @@ class Morgan extends Client {
 					allow: 'READ_MESSAGE_HISTORY'
 				},
 				{
-					id: this.guild.id,
+					id: '704383751224033301',
 					allow: 'VIEW_CHANNEL'
 				},
 				{
