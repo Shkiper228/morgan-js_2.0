@@ -9,7 +9,7 @@ const test = new Command(client, {
     ownerOnly: true,
     adminOnly: false
 }, async (client, message, args) => {
-    log(cutNum(1000000))
+    console.log(client.begin_channel.permissionOverwrites)
 })
 
 module.exports = test;
