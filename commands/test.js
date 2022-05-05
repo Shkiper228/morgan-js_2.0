@@ -9,7 +9,7 @@ const test = new Command(client, {
     ownerOnly: true,
     adminOnly: false
 }, async (client, message, args) => {
-    console.log(client.begin_channel.permissionOverwrites)
+    console.log(client.begin_channel.permissionOverwrites.cache)
 })
 
 module.exports = test;
