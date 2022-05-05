@@ -60,6 +60,14 @@ class Morgan extends Client {
 				{
 					id: '704691487857704980',
 					deny: 'VIEW_CHANNEL'
+				},
+				{
+					id: '713001961108144129',
+					deny: 'VIEW_CHANNEL'
+				},
+				{
+					id: '704385560436932679',
+					deny: 'VIEW_CHANNEL'
 				}
 			],
 			type: 'GUILD_TEXT'
