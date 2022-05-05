@@ -9,7 +9,7 @@ const test = new Command(client, {
     ownerOnly: true,
     adminOnly: false
 }, async (client, message, args) => {
-    console.log(await client.guild.channels.fetch('704384154925662280'))
+    log(await client.guild.channels.fetch('704384154925662280'))
 })
 
 module.exports = test;
