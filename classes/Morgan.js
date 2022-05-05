@@ -43,6 +43,10 @@ class Morgan extends Client {
 			permissionOverwrites:[
 				{
 					id: this.guild.id,
+					allow: 'READ_MESSAGE_HISTORY'
+				},
+				{
+					id: this.guild.id,
 					allow: 'VIEW_CHANNEL'
 				},
 				{
