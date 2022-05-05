@@ -38,7 +38,7 @@ class Morgan extends Client {
 		await this.dbConnection();
 
 
-		this.begin_channel = await findOrCreateChannel(client, 'welcome')
+		this.begin_channel = await findOrCreateChannel(this, 'welcome')
 		await this.begin_channel.edit({
 			permissionOverwrites:[
 				{
