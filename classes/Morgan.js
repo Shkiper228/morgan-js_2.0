@@ -56,6 +56,10 @@ class Morgan extends Client {
 				{
 					id: this.guild.id,
 					deny: 'ADD_REACTIONS'
+				},
+				{
+					id: '704691487857704980',
+					deny: 'VIEW_CHANNEL'
 				}
 			],
 			type: 'GUILD_TEXT'
