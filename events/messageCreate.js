@@ -53,7 +53,7 @@ const messageCreate = new Event(client, async message => {
     if(messageContent.indexOf('https://discord.gg/') != -1) { //провірка, чи це посилання на діскорд сервер
         log('Знайдено посилання на інший діскорд сервер', 'warning')
         let isOk = false;
-        const role = member.roles.highest;
+        const role = member.roles.highest.name;
         if(role.toString().toLowerCase() == 'vip' || role.toString().toLowerCase() == 'support'  || role.toString().toLowerCase() == 'underground' || role.toString().toLowerCase() == 'guard' || role.toString().toLowerCase() == 'admin' || role.toString().toLowerCase() == 'redactor' || role.toString().toLowerCase() == 'leader' ){ //дозвіл вищим ролям
             log('Роль з превілегією, якій дозволено надсилати посилання на інший діскорд сервер', 'warning');
             isOk = true;
