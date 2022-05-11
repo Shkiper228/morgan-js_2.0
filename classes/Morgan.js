@@ -67,7 +67,8 @@ class Morgan extends Client {
 		})
 
 		//creatende privat voice
-		this.creatende_privat_voice = await groundChannel(this, '[+] Створити приватний канал', {type: 'GUILD_VOICE'})
+		const category = this.guild.channels.fetch('704389271775215738');
+		this.creatende_privat_voice = await groundChannel(this, '[+] Створити приватний канал', {type: 'GUILD_VOICE', parent: category})
 	}
 
 	async loadCommands () {
