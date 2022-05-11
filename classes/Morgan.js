@@ -1,9 +1,9 @@
 const { Client, Intents } = require('discord.js');
-const log = require('../classes/Logger.js');
-const findOrCreateChannel = require('../utils.js').findOrCreateChannel;
-const fs = require('fs');
 const mysql = require('mysql');
+const fs = require('fs');
+const { groundChannel, setSingularMessage } = require('../utils.js');
 const InfoBook = require('../classes/books/InfoBook.js');
+const log = require('../classes/Logger.js');
 
 
 class Morgan extends Client {
@@ -25,92 +25,49 @@ class Morgan extends Client {
         this.config = require('../config.json').general;
 		
 		this.InfoBook = [];
+		this.privat_voices = [];
     }
 
 	async init() {
 		this.guild = await this.guilds.fetch(this.config.guild);
 		log(`Кількість емодзі: ${await this.guild.emojis.cache.size}`)
-		this.owner = await this.guild.members.fetch('506215900836265995');
-
+		this.owner = await this.guild.members.fetch(this.config.owner);
+		
+		
+		await this.initPrimaryChannels();
 		await this.loadCommands();
 		await this.loadEvents();
 		await this.loadInfoBooks();
 		await this.dbConnection();
+		
+	}
 
-
-		this.begin_channel = await findOrCreateChannel(this, 'welcome')
-		await this.begin_channel.edit({
-			permissionOverwrites:[
-				{
-					id: this.guild.id,
-					deny: 'SEND_MESSAGES'
-				},
-				{
-					id: this.guild.id,
-					deny: 'ADD_REACTIONS'
-				},
-				{
-					id: '704691487857704980',
-					deny: 'VIEW_CHANNEL'
-				},
-				{
-					id: '713001961108144129',
-					deny: 'VIEW_CHANNEL'
-				},
-				{
-					id: '704385560436932679',
-					deny: 'VIEW_CHANNEL'
-				}
-			],
-			type: 'GUILD_TEXT'
+	async initPrimaryChannels() {
+		//welcome
+		this.begin_channel = await groundChannel(this, '✅welcome');
+		await this.begin_channel.permissionOverwrites.create(this.guild.roles.everyone, {
+			'VIEW_CHANNEL': true,
+			'SEND_MESSAGES': false,
+			'ADD_REACTIONS': false
+		})
+		const begin_message = await setSingularMessage(this, this.begin_channel, {embeds: [{
+			title: 'Верифікація',
+			description: 'Ласкаво просимо на сервері! \nВи новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила <#704384154925662280>\nТа деяку загальну інформацію <#842853700237656135>\nНажміть реакцію для верифікації',
+			color: '#004B4B'
+		}]})
+		await begin_message.reactions.removeAll();
+		await begin_message.react('✅');
+		
+		//users channel
+		this.users_channel = await groundChannel(this, '📗users');
+		await this.users_channel.permissionOverwrites.create(this.guild.roles.everyone, {
+			'VIEW_CHANNEL': true,
+			'SEND_MESSAGES': false,
+			'ADD_REACTIONS': false
 		})
 
-		const messages = await this.begin_channel.messages.fetch();
-		let begin_message;
-        if(messages.size == 1) {
-            if(messages.first().author.id != this.user.id){
-                log(`В каналі для книги ${this.name} знайдено постороннє повідомлення. Видаляєм його та створюємо своє...`, 'error')
-                await messages.first().delete()
-                begin_message = await this.begin_channel.send({embeds: [{
-                    title: 'Верифікація',
-                    description: 'Ласкаво просимо на сервері! \nВи новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила <#704384154925662280>\nТа деяку загальну інформацію <#842853700237656135>\nНажміть реакцію для верифікації',
-					color: '#004B4B'
-                }]})
-            } else {
-                begin_message = await messages.first().edit({embeds: [{
-                    title: 'Верифікація',
-                    description: 'Ласкаво просимо на сервері! \nВи новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила <#704384154925662280>\nТа деяку загальну інформацію <#842853700237656135>\nНажміть реакцію для верифікації',
-					color: '#004B4B'
-                }]})
-            }
-            
-        } else if(messages.size == 0){
-            begin_message = await this.begin_channel.send({embeds: [{
-				title: 'Верифікація',
-				description: 'Ласкаво просимо на сервері! \nВи новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила <#704384154925662280>\nТа деяку загальну інформацію <#842853700237656135>\nНажміть реакцію для верифікації',
-				color: '#004B4B'
-			}]})
-        } else {
-            let isSended = false;
-            log(`В каналі для книги ${this.name} знайдено посторонні повідомлення. Видаляєм їх та створюємо своє...`, 'error')
-            messages.forEach(async message => {
-                if(message.author.id != this.user.id || isSended) {
-                    await message.delete();
-                } else if(message.author.id == this.user.id && !isSended) {
-                    isSended = true
-                    begin_message = message;
-                };
-            })
-
-            begin_message.edit({embeds: [{
-				title: 'Верифікація',
-				description: 'Ласкаво просимо на сервері! \nВи новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила <#704384154925662280>\nТа деяку загальну інформацію <#842853700237656135>\nНажміть реакцію для верифікації',
-				color: '#004B4B'
-			}]})
-        }
-        
-        await begin_message.reactions.removeAll();
-        await begin_message.react('✅');
+		//creatende privat voice
+		this.creatende_privat_voice = await groundChannel(this, '[+] Створити приватний канал', {type: 'GUILD_VOICE'})
 	}
 
 	async loadCommands () {
@@ -165,10 +122,10 @@ class Morgan extends Client {
 
 	async dbConnection () {
 		this.connection = await mysql.createConnection({
-			host: process.env.DB_HOST != undefined ? process.env.DB_HOST : require('../secret.json').DB_HOST,
-			user: process.env.DB_USERNAME != undefined ? process.env.DB_USERNAME : require('../secret.json').DB_USERNAME,
-			password: process.env.DB_PASSWORD != undefined ? process.env.DB_PASSWORD : require('../secret.json').DB_PASSWORD,
-			database: process.env.DB_DATABASE != undefined ? process.env.DB_DATABASE : require('../secret.json').DB_DATABASE
+			host: '127.0.0.1',
+			user: 'root',
+			password: '',
+			database: 'morgan'
 		})
 		
 		await this.connection.connect(async (err) => {
@@ -187,7 +144,7 @@ class Morgan extends Client {
 
 	
 	async regMembers () {
-		await this.connection.query(`CREATE TABLE IF NOT EXISTS members ( 
+		this.connection.query(`CREATE TABLE IF NOT EXISTS members ( 
 			id BIGINT NOT NULL ,
 			messages INT NOT NULL DEFAULT 0 ,
 			experience INT NOT NULL DEFAULT 0 ,
@@ -197,7 +154,6 @@ class Morgan extends Client {
 			)
 		const members = await this.guild.members.fetch();
 		members.forEach(member => {
-			
 			if(!member.user.bot) {
 				this.connection.query(`SELECT * FROM members WHERE id = ${member.id}`, (error, rows, fields) => {
 					if(rows[0]) return;

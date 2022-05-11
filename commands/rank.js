@@ -104,13 +104,21 @@ const rank = new Command(client, {
     ownerOnly: false,
     adminOnly: false
 }, async (client, message, args) => {
+    let id;
     let member;
     if (!args[0]) {
         member = await client.guild.members.fetch(message.author.id);
         
     } else {
+        if(args[0].indexOf('<@') != -1) {
+            log(args[0].indexOf('<@'))
+            id = args[0].slice(2, args[0].length - 1)
+            log(id);
+        } else {
+            id = args[0];
+        }
         try {
-            member = await client.guild.members.fetch(args[0]);
+            member = await client.guild.members.fetch(id);
             if(member.user.bot) {
                 new ErroAlarm ({
                     description: `${message.author} не можна генерувати картку рейтингу для ботів, так як їх досвід не фіксується в базі даних`, 

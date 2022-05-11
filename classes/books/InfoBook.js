@@ -2,6 +2,7 @@ const {MessageEmbed} = require('discord.js');
 const path_lib = require('path');
 const fs = require('fs');
 const log = require('../Logger.js');
+const { groundChannel, setSingularMessage } = require('../../utils.js')
 
 
 
@@ -38,91 +39,21 @@ class InfoBook {
     emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '0️⃣'];
 
     async start () {
-        const channels = await client.guild.channels.fetch();
+        this.channel = await groundChannel(this.client, this.name.toString().replace(' ', '-'));
+        this.channel.permissionOverwrites.create(this.client.guild.roles.everyone, {
+			'VIEW_CHANNEL': true,
+			'SEND_MESSAGES': false,
+			'ADD_REACTIONS': false
+		})
+
+        this.message = await setSingularMessage(this.client, this.channel, {embeds: [{
+            title: 'Зміст',
+            description: this.contentPage
+        }]})
         client.infoBooks.push(this);
 
-        const channel = channels.find(channel => {
-            if(channel.name.toString().toLowerCase() === this.name.toString().replace(' ', '-').toLowerCase()) return true
-        })
 
-        if(channel) {
-            this.channel = channel;
-            log(`Канал для книги ${this.name} уже є`);
-            await channel.edit({
-                permissionOverwrites:[
-                    {
-                        id: this.client.guild.id,
-                        allow: 'VIEW_CHANNEL'
-                    },
-                    {
-                        id: this.client.guild.id,
-                        deny: 'SEND_MESSAGES'
-                    },
-                    {
-                        id: this.client.guild.id,
-                        deny: 'ADD_REACTIONS'
-                    }
-                ],
-                type: 'GUILD_TEXT'
-            })
-        } else {
-            log(`Каналу для книги ${this.name} ще немає. Створюєм...`, 'error')
-            await this.client.guild.channels.create(this.name, {permissionOverwrites:[
-                {
-                    id: this.client.guild.id,
-                    allow: 'VIEW_CHANNEL'
-                },
-                {
-                    id: this.client.guild.id,
-                    deny: 'SEND_MESSAGES'
-                },
-                {
-                    id: this.client.guild.id,
-                    deny: 'ADD_REACTIONS'
-                }
-            ]})
-            .then((channel) => {this.channel = channel; log('Канал створено')})
-
-        }
-
-        const messages = await this.channel.messages.fetch();
-        if(messages.size == 1) {
-            if(messages.first().author.id != this.client.user.id){
-                log(`В каналі для книги ${this.name} знайдено постороннє повідомлення. Видаляєм його та створюємо своє...`, 'error')
-                await messages.first().delete()
-                this.message = await this.channel.send({embeds: [{
-                    title: 'Зміст',
-                    description: this.contentPage
-                }]})
-            } else {
-                this.message = await messages.first().edit({embeds: [{
-                    title: 'Зміст',
-                    description: this.contentPage
-                }]})
-            }
-            
-        } else if(messages.size == 0){
-            this.message = await this.channel.send({embeds: [{
-                title: 'Зміст',
-                description: this.contentPage
-            }]})
-        } else {
-            let isSended = false;
-            log(`В каналі для книги ${this.name} знайдено посторонні повідомлення. Видаляєм їх та створюємо своє...`, 'error')
-            messages.forEach(async message => {
-                if(message.author.id != this.client.user.id || isSended) {
-                    await message.delete();
-                } else if(message.author.id == this.client.user.id && !isSended) {
-                    isSended = true
-                    this.message = message;
-                };
-            })
-
-            this.message.edit({embeds: [{
-                title: 'Зміст',
-                description: this.contentPage
-            }]})
-        }
+        
         
         await this.message.reactions.removeAll();
         await this.message.react(this.emojis[this.emojis.length - 1]);
