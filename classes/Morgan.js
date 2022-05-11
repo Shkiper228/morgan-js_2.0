@@ -123,10 +123,10 @@ class Morgan extends Client {
 
 	async dbConnection () {
 		this.connection = await mysql.createConnection({
-			host: '127.0.0.1',
-			user: 'root',
-			password: '',
-			database: 'morgan'
+			host: process.env.DB_HOST != undefined ? process.env.DB_HOST : require('../secret.json').DB_HOST,
+			user: process.env.DB_USERNAME != undefined ? process.env.DB_USERNAME : require('../secret.json').DB_USERNAME,
+			password: process.env.DB_PASSWORD != undefined ? process.env.DB_PASSWORD : require('../secret.json').DB_PASSWORD,
+			database: process.env.DB_DATABASE != undefined ? process.env.DB_DATABASE : require('../secret.json').DB_DATABASE
 		})
 		
 		await this.connection.connect(async (err) => {
