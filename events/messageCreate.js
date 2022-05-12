@@ -39,6 +39,7 @@ const messageCreate = new Event(client, async message => {
                 await console.send({
                     /*content: `${member}`,*/
                     embeds: [{
+                        content: member,
                         description: `${member} ви досягнули ${rows[0].level} рівень! Вітаєм!`,
                         color: '#2D7144'
                     }]
