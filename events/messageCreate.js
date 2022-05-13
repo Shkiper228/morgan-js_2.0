@@ -37,10 +37,10 @@ const messageCreate = new Event(client, async message => {
                 rows[0].level++;
                 const console = await client.guild.channels.fetch('704660113750884433');
                 await console.send({
-                    /*content: `${member}`,*/
+                    content: `${member}`,
                     embeds: [{
                         content: member,
-                        description: `${member} ви досягнули ${rows[0].level} рівень! Вітаєм!`,
+                        description: `Ви досягнули ${rows[0].level} рівень! Вітаєм!`,
                         color: '#2D7144'
                     }]
                 })
