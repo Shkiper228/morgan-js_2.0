@@ -4,7 +4,7 @@ const fs = require('fs');
 const { groundChannel, setSingularMessage } = require('../utils.js');
 const InfoBook = require('../classes/books/InfoBook.js');
 const log = require('../classes/Logger.js');
-
+const { Player } = require('discord-player');
 
 class Morgan extends Client {
     constructor () {
@@ -26,12 +26,36 @@ class Morgan extends Client {
 		
 		this.InfoBook = [];
 		this.privat_voices = [];
+		
     }
 
 	async init() {
 		this.guild = await this.guilds.fetch(this.config.guild);
-		log(`Кількість емодзі: ${await this.guild.emojis.cache.size}`)
+		log(`Кількість емодзі: ${this.guild.emojis.cache.size}`)
 		this.owner = await this.guild.members.fetch(this.config.owner);
+		
+		this.player = new Player(this);
+		this.player.on('trackStart', async (queue, track) => {
+			if(this.player.getQueue(this.guild).repeatMode != 1) {
+				await queue.metadata.channel.send({embeds: [{
+					title: `**${track.author}**`,
+					description: `${track.title}\n\`Тривалість:\n${track.duration}\``,
+					image: {
+						url: track.thumbnail,
+						height: 128,
+						width: 128
+					}
+				}]});
+			}
+		})
+
+		this.player.on('connectionError', (queue, error) => {
+			log(`Сталась помилка --> ${error}`)
+		})
+
+		this.player.on('error', (queue, error) => {
+			log(`Сталась помилка --> ${error}`)
+		})
 		
 		
 		await this.initPrimaryChannels();
@@ -67,8 +91,7 @@ class Morgan extends Client {
 		})
 
 		//creatende privat voice
-		const category = await this.guild.channels.fetch('704389271775215738');
-		this.creatende_privat_voice = await groundChannel(this, '[+] Створити приватний канал', {type: 'GUILD_VOICE', parent: category})
+		this.creatende_privat_voice = await groundChannel(this, '[+] Створити приватний канал', {type: 'GUILD_VOICE'})
 	}
 
 	async loadCommands () {
@@ -122,6 +145,7 @@ class Morgan extends Client {
 	}
 
 	async dbConnection () {
+
 		this.connection = await mysql.createConnection({
 			host: process.env.DB_HOST != undefined ? process.env.DB_HOST : require('../secret.json').DB_HOST,
 			user: process.env.DB_USERNAME != undefined ? process.env.DB_USERNAME : require('../secret.json').DB_USERNAME,
