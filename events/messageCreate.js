@@ -22,7 +22,7 @@ const messageCreate = new Event(client, async message => {
                     description: `Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера`,
                     color: '#43B582'
                 }]})
-        }, 10)
+        }, 1000)
 
     }
 
