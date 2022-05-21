@@ -1,7 +1,7 @@
 const { Client, Intents } = require('discord.js');
 const mysql = require('mysql');
 const fs = require('fs');
-const { groundChannel, setSingularMessage } = require('../utils.js');
+const { groundChannel, setSingularMessage } = require('../utils/channelsUtils.js');
 const InfoBook = require('../classes/books/InfoBook.js');
 const log = require('../classes/Logger.js');
 const { Player } = require('discord-player');

@@ -1,5 +1,8 @@
 const Command = require('../classes/Command.js');
-const log = require('../classes/Logger.js')
+const log = require('../classes/Logger.js');
+const ErrorAlarm = require('../classes/ErrorAlarm.js');
+const { checkAndConvertOfType } = require('../utils/stringAndNumsFormat.js');
+
 
 const timer = new Command(client, {
     name: 'timer',
@@ -8,24 +11,13 @@ const timer = new Command(client, {
     ownerOnly: false,
     adminOnly: false
 }, async (client, message, args) => {
-    if(Number(args[0]) % 1 != 0) {
-        await message.delete();
+    if(!checkAndConvertOfType(args[0], 'int')) {
         new ErrorAlarm({
-            description: 'Введено не ціле число',
+            description: `${message.author} введено не ціле число`,
             channel: message.channel
         })
         return;
     }
-
-    if(Number(args[0]) == NaN) {
-        await message.delete();
-        new ErrorAlarm({
-            description: 'Введено не ціле число',
-            channel: message.channel
-        })
-        return;
-    }
-
 
     await message.channel.send({
         embeds: [{

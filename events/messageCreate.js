@@ -27,12 +27,12 @@ const messageCreate = new Event(client, async message => {
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
         if(rows) {
             let expForNextLvl = 0;
-            for(let i = 0; i < rows[0].level; i++){
+            for(let i = 1; i < rows[0].level + 1; i++){
                 expForNextLvl += (5 * Math.pow(i, 2)) + (50 * i) + 100;
                 
             }
 
-            const exp = rows[0].experience + Math.floor(Math.random() * 10) + 15;
+            const exp = rows[0].experience;
             if(exp >= expForNextLvl) {
                 rows[0].level++;
                 const console = await client.guild.channels.fetch('966649160013078548');
@@ -44,7 +44,7 @@ const messageCreate = new Event(client, async message => {
                     }]
                 })
             };
-            client.connection.query(`UPDATE members SET experience = ${exp}, 
+            client.connection.query(`UPDATE members SET experience = ${exp + Math.floor(Math.random() * 10) + 15}, 
             level = ${rows[0].level}, messages = ${rows[0].messages + 1} WHERE id = ${message.author.id}`)
         }
     })

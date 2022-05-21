@@ -1,6 +1,7 @@
 const Command = require('../classes/Command.js');
 const log = require('../classes/Logger.js');
 const ErrorAlarm = require('../classes/ErrorAlarm.js');
+const { checkAndConvertOfType } = require('../utils/stringAndNumsFormat.js');
 
 const clear = new Command(client, {
     name: 'clear',
@@ -11,35 +12,17 @@ const clear = new Command(client, {
 }, async (client, message, args) => {
     const member = await client.guild.members.fetch(message.author.id);
     const roles = member.roles;
-    if(roles.highest.name.toString() != 'leader' && roles.highest.name.toString() != 'admin' && roles.highest.name.toString() != 'support' && roles.highest.name.toString() != 'guard') {
-        new ErrorAlarm({
-            description: `${member}, ви не маєте права використовувати цю команду`,
-            channel: message.channel,
-            timeout: 5
-        })
-        await message.delete()
-        return;
-    } 
 
-    if(Number(args[0]) % 1 != 0) {
-        await message.delete();
+
+    if(!checkAndConvertOfType(args[0], 'int')) {
         new ErrorAlarm({
-            description: 'Введено не ціле число',
+            description: `${message.author} введено не ціле число`,
             channel: message.channel
         })
         return;
     }
 
-    if(Number(args[0]) == NaN) {
-        await message.delete();
-        new ErrorAlarm({
-            description: 'Введено не ціле число',
-            channel: message.channel
-        })
-        return;
-    }
-
-    let amount = Number(args[0]);
+    let amount = checkAndConvertOfType(args[0], 'int');
     if(Number(args[0]) > 99) {
         amount = 99;
         new ErrorAlarm({

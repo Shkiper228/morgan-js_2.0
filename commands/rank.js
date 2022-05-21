@@ -3,7 +3,8 @@ const { MessageAttachment } = require('discord.js')
 const ErroAlarm = require('../classes/ErrorAlarm.js')
 const Command = require('../classes/Command.js');
 const log = require('../classes/Logger.js');
-const { fillRectRadius, cutNum } = require('../utils.js');
+const { fillRectRadius } = require('../utils/canvasUtils.js');
+const { cutNum } = require('../utils/stringAndNumsFormat.js');
 
 
 async function formatRankCard(client, canvas, member, message) {

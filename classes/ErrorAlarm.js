@@ -1,12 +1,10 @@
 class ErrorAlarm {
     constructor({
         description = 'Помилка',
-        timeout = 4,
         color = '#FF0000',
         channel = undefined
     }) {
         this.description = description;
-        this.timeout = timeout;
         this.color = color;
         this.channel = channel;
 
@@ -28,11 +26,6 @@ class ErrorAlarm {
             log('Не вдалось написати ErrorAlarm', 'error')
             return
         }
-        
-        setTimeout(async () => {
-            await this.message.delete()
-        }, this.timeout * 1000)
-
     }
 }
 
