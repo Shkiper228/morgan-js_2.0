@@ -2,7 +2,7 @@ const {MessageEmbed} = require('discord.js');
 const path_lib = require('path');
 const fs = require('fs');
 const log = require('../Logger.js');
-const { groundChannel, setSingularMessage } = require('../../utils.js')
+const { groundChannel, setSingularMessage } = require('../../utils/channelsUtils.js')
 
 
 
