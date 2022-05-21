@@ -14,7 +14,7 @@ const messageCreate = new Event(client, async message => {
             color: '#43B582'
         }]})
 
-        setTimeout((message) => {
+        setTimeout(() => {
             message.channel.send({
                 content: `${bumper}`,
                 embeds: [{
