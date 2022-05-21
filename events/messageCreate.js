@@ -5,7 +5,7 @@ const log = require('../classes/Logger.js');
 
 const messageCreate = new Event(client, async message => {
     //bump check
-    if(message.author.id === '315926021457051650'/* && message.embeds[0].color == '#43B582'*/){
+    if(message.author.id === '315926021457051650' && message.embeds[0].color == '#43B582'){
         log(message.embeds[0].color);
         const bumper = await client.guild.members.fetch(message.embeds[0].description.slice(message.embeds[0].description.indexOf('<@') + 2, message.embeds[0].description.indexOf('<@') + 20))
         console.log(message);
@@ -22,10 +22,9 @@ const messageCreate = new Event(client, async message => {
                     description: `Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера`,
                     color: '#43B582'
                 }]})
-        }, 1440000)
+        }, 10)
 
     }
-
 
 
     if (message.author.bot || message.channel.type == 'DM' || message.channel.type == 'GROUP_DM') return; //команди від користувачів, які є ботами та повідомлення в дірект або групи не працюватимуть
