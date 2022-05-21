@@ -115,16 +115,6 @@ const messageCreate = new Event(client, async message => {
     
 
     
-    
-    
-/*    new ErrorAlarm({
-        description: `${member}, ви не маєте права використовувати цю команду`,
-        channel: message.channel,
-        timeout: 5
-    })
-    await message.delete()
-    return;*/
-    
     //commands handler
     const prefix = client.config.prefix;
     if(messageContent.toLowerCase().startsWith(prefix)) { //команду ідентифіковано
@@ -138,9 +128,31 @@ const messageCreate = new Event(client, async message => {
 
                 await client.commands[cname].run(client, message, args);
             } else if((messageContent === cname || messageContent.startsWith(`${cname} `)) && client.commands[cname].ownerOnly) {
-                log(`Команда ${cname} доступна лише творцю сервера. Відмовлено у доступі`, 'error')
+                new ErrorAlarm({
+                    description: `${member}, ви не маєте права використовувати цю команду. Вона лише для розробника`,
+                    channel: message.channel
+                })
             }
         }
+    }
+
+
+
+
+    //bump check
+    if(message.author.id == '315926021457051650' && message.embeds[0].color == '#43B582'){
+        console.log(message);
+        message.channel.send({embeds:[{
+            description: `${member} бамп успішний. Таймер запущено`
+        }]})
+
+        setTimeout((message) => {
+            message.channel.send({embeds: [{
+                title: 'Пора бампити!',
+                description: `${member} час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера`
+            }]})
+        }, 1440000)
+
     }
 
     /*
