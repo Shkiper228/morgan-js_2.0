@@ -58,7 +58,7 @@ const messageCreate = new Event(client, async message => {
             const exp = rows[0].experience;
             if(exp >= expForNextLvl) {
                 rows[0].level++;
-                const console = await client.guild.channels.fetch(client.config.guild);
+                const console = await client.guild.channels.fetch(client.config.console);
                 await console.send({
                     content: `${member}`,
                     embeds: [{

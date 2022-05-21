@@ -8,6 +8,8 @@
         "books_path" : "books",
     
         "main_link": "https://discord.gg/RprqnXR57u",
-        "prefix": "$"
+        "prefix": "$",
+
+        "console": "704660113750884433"
     }
 }
