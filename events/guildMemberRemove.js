@@ -1,6 +1,5 @@
 const Event = require('../classes/Event.js');
 const log = require('../classes/Logger.js');
-const findOrCreateChannel = require('../utils.js').findOrCreateChannel;
 
 function formatCurrentDateTime() {
     const date = new Date();
@@ -15,32 +14,10 @@ function formatCurrentDateTime() {
 }
 
 const guildMemberRemove = new Event(client, async (member) => {
-    const channel = await findOrCreateChannel(client, '📗users');
-    await channel.edit({
-        permissionOverwrites:[
-            {
-                id: client.guild.id,
-                allow: 'VIEW_CHANNEL'
-            },
-            {
-                id: client.guild.id,
-                deny: 'SEND_MESSAGES'
-            },
-            {
-                id: client.guild.id,
-                deny: 'ADD_REACTIONS'
-            }
-        ],
-        type: 'GUILD_TEXT'
-    })
-    channel.send({embeds: [{
+    client.users_channel.channel.send({embeds: [{
         description: `${member} під іменем ${member.user.tag} покинув сервер о ${formatCurrentDateTime()}\n`,
         color: '#aa0000'
     }]});
-
-    /*channel.send({embeds: [{
-        description: `Ласкаво просимо на сервері, ${member}! Ти уже ${member.guild.memberCount}-й\nПрочитай правила ${}`
-    }]})*/
 });
 
 module.exports = guildMemberRemove;
