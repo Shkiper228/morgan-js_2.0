@@ -141,16 +141,21 @@ const messageCreate = new Event(client, async message => {
 
     //bump check
     if(message.author.id == '315926021457051650' && message.embeds[0].color == '#43B582'){
+        const bumper = await client.guild.members.fetch(message.embeds[0].description.slice(message.embeds[0].description.indexOf('<@') + 2, message.embeds[0].description.indexOf('<@') + 20))
         console.log(message);
         message.channel.send({embeds:[{
-            description: `${member} бамп успішний. Таймер запущено`
+            description: `${bumper} бамп успішний. Таймер запущено`,
+            color: '#43B582'
         }]})
 
         setTimeout((message) => {
-            message.channel.send({embeds: [{
-                title: 'Пора бампити!',
-                description: `${member} час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера`
-            }]})
+            message.channel.send({
+                content: `${bumper}`,
+                embeds: [{
+                    title: 'Пора бампити!',
+                    description: `Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера`,
+                    color: '#43B582'
+                }]})
         }, 1440000)
 
     }
