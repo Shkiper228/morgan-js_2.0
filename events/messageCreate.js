@@ -132,7 +132,7 @@ const messageCreate = new Event(client, async message => {
 
         for (let cname in client.commands) {
 
-            if ((messageContent === cname || messageContent.startsWith(`${cname} `)) && (!client.commands[cname].ownerOnly || member.id == client.owner)) {
+            if ((messageContent.toLowerCase() === cname || messageContent.startsWith(`${cname} `)) && (!client.commands[cname].ownerOnly || member.id == client.owner)) {
       
                 let args = messageContent.slice(cname.length).split(' ').filter(el => el != '');
 

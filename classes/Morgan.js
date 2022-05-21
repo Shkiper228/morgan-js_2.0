@@ -101,7 +101,7 @@ class Morgan extends Client {
 
 		fs.readdirSync(`${path}`).forEach((file, index) => {
 			if(file.endsWith('.js')) {
-				const cname = file.substring(0, file.length-3);
+				const cname = file.substring(0, file.length-3).toLowerCase();
 				const command = require(`../${path}/${file.toString()}`);
 				this.commands[cname] = command;
 				this.commands[index] = command;
