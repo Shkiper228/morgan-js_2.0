@@ -9,7 +9,7 @@ const messageCreate = new Event(client, async message => {
         log(message.embeds[0].color);
         const bumper = await client.guild.members.fetch(message.embeds[0].description.slice(message.embeds[0].description.indexOf('<@') + 2, message.embeds[0].description.indexOf('<@') + 20))
         console.log(message);
-        message.channel.send({embeds:[{
+        await message.channel.send({embeds:[{
             description: `${bumper} бамп успішний. Таймер запущено`,
             color: '#43B582'
         }]})
