@@ -140,7 +140,7 @@ const messageCreate = new Event(client, async message => {
 
 
     //bump check
-    if(message.author.id == '315926021457051650' && message.embeds[0].color == '#43B582'){
+    if(message.author.id === '315926021457051650'/* && message.embeds[0].color == '#43B582'*/){
         const bumper = await client.guild.members.fetch(message.embeds[0].description.slice(message.embeds[0].description.indexOf('<@') + 2, message.embeds[0].description.indexOf('<@') + 20))
         console.log(message);
         message.channel.send({embeds:[{
