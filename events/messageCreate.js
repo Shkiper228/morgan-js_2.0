@@ -27,7 +27,7 @@ const messageCreate = new Event(client, async message => {
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
         if(rows) {
             let expForNextLvl = 0;
-            for(let i = 0; i < rows[0].level + 1; i++){
+            for(let i = 0; i < rows[0].level; i++){
                 expForNextLvl += (5 * Math.pow(i, 2)) + (50 * i) + 100;
                 
             }
@@ -35,17 +35,17 @@ const messageCreate = new Event(client, async message => {
             const exp = rows[0].experience + Math.floor(Math.random() * 10) + 15;
             if(exp >= expForNextLvl) {
                 rows[0].level++;
-                const console = await client.guild.channels.fetch('704660113750884433');
+                const console = await client.guild.channels.fetch('966649160013078548');
                 await console.send({
                     content: `${member}`,
                     embeds: [{
-                        content: member,
                         description: `Ви досягнули ${rows[0].level} рівень! Вітаєм!`,
                         color: '#2D7144'
                     }]
                 })
             };
-            client.connection.query(`UPDATE members SET experience = ${exp}, level = ${rows[0].level}, messages = ${rows[0].messages + 1} WHERE id = ${message.author.id}`)
+            client.connection.query(`UPDATE members SET experience = ${exp}, 
+            level = ${rows[0].level}, messages = ${rows[0].messages + 1} WHERE id = ${message.author.id}`)
         }
     })
 
@@ -53,8 +53,9 @@ const messageCreate = new Event(client, async message => {
     //check adds
     if(messageContent.indexOf('https://discord.gg/') != -1) { //провірка, чи це посилання на діскорд сервер
         log('Знайдено посилання на інший діскорд сервер', 'warning')
+        const role = member.roles.highest;
+        
         let isOk = false;
-        const role = member.roles.highest.name;
         if(role.toString().toLowerCase() == 'vip' || role.toString().toLowerCase() == 'support'  || role.toString().toLowerCase() == 'underground' || role.toString().toLowerCase() == 'guard' || role.toString().toLowerCase() == 'admin' || role.toString().toLowerCase() == 'redactor' || role.toString().toLowerCase() == 'leader' ){ //дозвіл вищим ролям
             log('Роль з превілегією, якій дозволено надсилати посилання на інший діскорд сервер', 'warning');
             isOk = true;
@@ -70,6 +71,7 @@ const messageCreate = new Event(client, async message => {
                 }
         })
         })
+
         
         const offender = member.user;
         let err = false;
@@ -115,7 +117,13 @@ const messageCreate = new Event(client, async message => {
     
     
     
-
+/*    new ErrorAlarm({
+        description: `${member}, ви не маєте права використовувати цю команду`,
+        channel: message.channel,
+        timeout: 5
+    })
+    await message.delete()
+    return;*/
     
     //commands handler
     const prefix = client.config.prefix;
