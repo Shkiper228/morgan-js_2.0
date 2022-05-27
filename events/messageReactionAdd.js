@@ -39,7 +39,7 @@ const messageReactionAdd = new Event(client, async (messageReaction, user) => {
         if (roles.highest.name.toString() === '@everyone') {
             await roles.add('704691487857704980', 'Верифікувався'); //замінити
         }
-        await messageReaction.users.remove(user);
+
     }
     
 /*
