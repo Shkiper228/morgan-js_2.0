@@ -36,10 +36,7 @@ const messageReactionAdd = new Event(client, async (messageReaction, user) => {
     if(messageReaction.message.channelId == client.begin_channel.id) {
         const member = await messageReaction.message.guild.members.fetch(user.id);
         const roles = member.roles;
-        if (roles.highest.name.toString() === '@everyone') {
-            await roles.add('704691487857704980', 'Верифікувався'); //замінити
-        }
-
+        await roles.add('704691487857704980', 'Верифікувався'); //замінити
     }
     
 /*
