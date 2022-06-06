@@ -14,7 +14,7 @@ function formatCurrentDateTime() {
 }
 
 const guildMemberRemove = new Event(client, async (member) => {
-    client.users_channel.channel.send({embeds: [{
+    client.users_channel.send({embeds: [{
         description: `${member} під іменем ${member.user.tag} покинув сервер о ${formatCurrentDateTime()}\n`,
         color: '#aa0000'
     }]});
