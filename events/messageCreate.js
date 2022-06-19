@@ -25,6 +25,7 @@ async function bump_check(client, message) {
     }
 }
 
+
 async function random_reaction(client, message) {
     const chance = 100;
     if(Math.ceil(Math.random()*100) <= chance && await client.guild.emojis.cache.size > 0){
@@ -36,6 +37,7 @@ async function random_reaction(client, message) {
         log('На сервері немає емодзі, тому випадкові реакції під повідомленнями неможливі. Якщо ви хочете, аби вона запрацювали - добавте емодзі на сервері', 'warning')
     }
 }
+
 
 async function updateXP(client, message, member) {
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
