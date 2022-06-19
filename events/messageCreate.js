@@ -27,7 +27,7 @@ async function bump_check(client, message) {
 
 
 async function random_reaction(client, message) {
-    const chance = 100;
+    const chance = 4;
     if(Math.ceil(Math.random()*100) <= chance && await client.guild.emojis.cache.size > 0){
         const emojis = await client.guild.emojis.fetch();
         
