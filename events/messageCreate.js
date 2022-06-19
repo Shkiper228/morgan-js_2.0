@@ -2,9 +2,7 @@ const Event = require('../classes/Event.js');
 const log = require('../classes/Logger.js');
 
 
-
-const messageCreate = new Event(client, async message => {
-    //bump check
+async function bump_check(client, message) {
     if(message.author.id === '315926021457051650' && message.embeds[0].description.indexOf('Server bumped by') != -1){
         log(message.embeds[0].color);
         const bumper = await client.guild.members.fetch(message.embeds[0].description.slice(message.embeds[0].description.indexOf('<@') + 2, message.embeds[0].description.indexOf('<@') + 20))
@@ -25,17 +23,10 @@ const messageCreate = new Event(client, async message => {
         }, 4*60*60*1000)
 
     }
+}
 
-
-    if (message.author.bot || message.channel.type == 'DM' || message.channel.type == 'GROUP_DM') return; //команди від користувачів, які є ботами та повідомлення в дірект або групи не працюватимуть
-    log(`<${message.channel.name}> [${message.author.tag}] ${message.content}`, 'message');
-
-    let messageContent = message.content;
-    const member = await message.guild.members.fetch(message.author.id);
-
-
-    //random reaction
-    const chance = 5;
+async function random_reaction(client, message) {
+    const chance = 100;
     if(Math.ceil(Math.random()*100) <= chance && await client.guild.emojis.cache.size > 0){
         const emojis = await client.guild.emojis.fetch();
         
@@ -44,9 +35,9 @@ const messageCreate = new Event(client, async message => {
     } else if(await client.guild.emojis.cache.size == 0) {
         log('На сервері немає емодзі, тому випадкові реакції під повідомленнями неможливі. Якщо ви хочете, аби вона запрацювали - добавте емодзі на сервері', 'warning')
     }
+}
 
-    
-    //updateXP
+async function updateXP(client, message, member) {
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
         if(rows) {
             let expForNextLvl = 0;
@@ -71,86 +62,78 @@ const messageCreate = new Event(client, async message => {
             level = ${rows[0].level}, messages = ${rows[0].messages + 1} WHERE id = ${message.author.id}`)
         }
     })
+}
 
 
-    //check adds
-    if(messageContent.indexOf('https://discord.gg/') != -1) { //провірка, чи це посилання на діскорд сервер
-        log('Знайдено посилання на інший діскорд сервер', 'warning')
-        const role = member.roles.highest;
+async function check_adds(client, message, member) {
+    if(message.content.indexOf('https://discord.gg/') != -1) { //провірка, чи це посилання на діскорд сервер
+        log('Знайдено посилання на діскорд сервер', 'warning')
+        const role = member.roles.highest.name.toLowerCase(); //найвища роль
         
         let isOk = false;
-        if(role.toString().toLowerCase() == 'vip' || role.toString().toLowerCase() == 'support'  || role.toString().toLowerCase() == 'underground' || role.toString().toLowerCase() == 'guard' || role.toString().toLowerCase() == 'admin' || role.toString().toLowerCase() == 'redactor' || role.toString().toLowerCase() == 'leader' ){ //дозвіл вищим ролям
+        await message.guild.invites.fetch().then(links => {
+            links.forEach(link => {
+                if(message.content.indexOf(link.toString()) != -1){ //все в порядку, це посилання на наш сервер
+                    isOk = true
+                    log('Все в порядку. Посилання на цей сервер')
+                }
+            })
+        })
+
+
+        
+        if(role == 'vip' || role == 'support'  || role == 'underground' || role == 'guard' || role == 'admin' || role == 'redactor' || role == 'leader' ){ //дозвіл вищим ролям
             log('Роль з превілегією, якій дозволено надсилати посилання на інший діскорд сервер', 'warning');
             isOk = true;
         }
 
         
 
-        await message.guild.invites.fetch().then(links => {
-            links.forEach(link => {
-                if(messageContent.indexOf(link.toString()) != -1){ //все в порядку, це посилання на наш сервер
-                    isOk = true
-                    log('Все в порядку. Посилання на цей сервер')
-                }
-        })
-        })
-
         
-        const offender = member.user;
-        let err = false;
-        let banMessage;
+        
 
         if(!isOk) {
-            banMessage = await offender.send({embeds: [{
+            const offender = member.user; //порушник
+            let err = false;
+
+            let banMessage = await offender.send({embeds: [{
                 description: 'Ви рекламували посторонній діскорд сервер на сервері _Weisttil_, за що вас було автоматично перманентно забанено. Наступного разу уважніше читайте правила!'
             }]})
 
-            try {
-                await member.ban({reason: 'Реклама посторонніх діскорд серверів'})
-            } catch (error) {
-                log(`Не вдалось забанити порушника ${message.author} під ніком ${message.author.username}. Щось пішло не так`, 'error')
-                err = true;
-                if(banMessage) {
-                    await banMessage.delete();
-                }
-            }
+
+            member.ban({reason: 'Реклама посторонніх діскорд серверів'})
+                .catch(async () => {
+                    log(`Не вдалось забанити порушника ${message.author} під ніком ${message.author.username}. Щось пішло не так`, 'error')
+                    err = true;
+                    banMessage.delete();
+                })
+
 
             if(!err) {
-                try {
-                   await offender.send({embeds: [{
-                        description: 'Ви рекламували посторонній діскорд сервер на сервері _Weisttil_, за що вас було автоматично перманентно забанено. Наступного разу уважніше читайте правила!'
-                    }]}) 
-                } catch (error) {
-                    log(`Не вдалось надіслати пояснення порушнику`, 'error');
-                }
                 await client.owner.send({embeds: [{
                         description: `${message.author} рекламував інший діскорд сервер на сервері _Weisttil_!`
-                    }]})
+                }]})
             }
 
-            try {
-                await message.delete();
-            } catch (error) {
-                log(`Не вдалось забанити порушника ${message.author} під ніком ${message.author.username}. Щось пішло не так`, 'error')
-            }
+            await message.delete();
         } 
     }
-    
+}
 
-    
-    //commands handler
+
+async function command_handler(client, message, member) {
     const prefix = client.config.prefix;
-    if(messageContent.toLowerCase().startsWith(prefix)) { //команду ідентифіковано
-        messageContent = messageContent.slice(prefix.length); //забираємо рефікс
+    if(message.content.toLowerCase().startsWith(prefix)) { //команду ідентифіковано
+        message.content = message.content.slice(prefix.length); //забираємо рефікс
 
         for (let cname in client.commands) {
 
-            if ((messageContent.toLowerCase() === cname || messageContent.startsWith(`${cname} `)) && (!client.commands[cname].ownerOnly || member.id == client.owner)) {
+            if ((message.content.toLowerCase() === cname || message.content.startsWith(`${cname} `)) && (!client.commands[cname].ownerOnly || member.id == client.owner)) {
       
-                let args = messageContent.slice(cname.length).split(' ').filter(el => el != '');
+                let args = message.content.slice(cname.length).split(' ').filter(el => el != '');
 
                 await client.commands[cname].run(client, message, args);
-            } else if((messageContent === cname || messageContent.startsWith(`${cname} `)) && client.commands[cname].ownerOnly) {
+            } else if((message.content === cname || message.content.startsWith(`${cname} `)) && client.commands[cname].ownerOnly) {
                 new ErrorAlarm({
                     description: `${member}, ви не маєте права використовувати цю команду. Вона лише для розробника`,
                     channel: message.channel
@@ -158,18 +141,57 @@ const messageCreate = new Event(client, async message => {
             }
         }
     }
+}
+
+
+
+
+
+
+
+
+
+
+const messageCreate = new Event(client, async message => {
+    //bump check
+    bump_check(client, message);
+
+
+    //is author bot
+    if (message.author.bot || message.channel.type == 'DM' || message.channel.type == 'GROUP_DM') return; //команди від користувачів, які є ботами та повідомлення в дірект або групи не працюватимуть
+    log(`<${message.channel.name}> [${message.author.tag}] ${message.content}`, 'message');
+
+    const member = await message.guild.members.fetch(message.author.id);
+
+
+    //random reaction
+    random_reaction(client, message);
+
+    
+    //updateXP
+    updateXP(client, message, member)
+
+
+    //check adds
+    check_adds(client, message, member);
+    
+
+    
+    //commands handler
+    const prefix = client.config.prefix;
+    command_handler(client, message, member);
 
 
     /*
     //chat
-    if(messageContent.trim().indexOf('<@&868886871948804197>') != -1 || messageContent.trim().indexOf('<@!868884079221809223>') != -1 || messageContent.trim().indexOf('<@868884079221809223>') != -1) {
+    if(message.content.trim().indexOf('<@&868886871948804197>') != -1 || message.content.trim().indexOf('<@!868884079221809223>') != -1 || message.content.trim().indexOf('<@868884079221809223>') != -1) {
         log(Math.floor(Math.random() * chat.mention.answers.length))
         await message.channel.send(chat.mention.answers[Math.floor(Math.random() * chat.mention.answers.length)])
     }
 
     chat.helloWords.triggers.forEach(async trigger => {
-        if(messageContent.trim().toLowerCase() == trigger.trim().toLowerCase()){
-            log(messageContent.trim().toLowerCase())
+        if(message.content.trim().toLowerCase() == trigger.trim().toLowerCase()){
+            log(message.content.trim().toLowerCase())
             log(trigger.trim().toLowerCase())
             let answer = chat.helloWords.answers.general[Math.floor(Math.random() * chat.helloWords.answers.general.length)];
             await message.channel.send(`${answer[0].toUpperCase()}${answer.slice(1)}`)
@@ -178,7 +200,7 @@ const messageCreate = new Event(client, async message => {
 
     //emotions and actions
     m_a.forEach(async element => {
-        if(messageContent.trim().toLowerCase() === element.key.toLocaleLowerCase().trim()) {
+        if(message.content.trim().toLowerCase() === element.key.toLocaleLowerCase().trim()) {
             await message.channel.send({ embeds: [{
                 description: `${message.author} ${element.answer}`,
                 image: {
