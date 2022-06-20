@@ -1,12 +1,6 @@
-const { createCanvas, loadImage } = require('canvas');
 const Command = require('../classes/Command.js');
-const { MessageAttachment } = require('discord.js')
-const { ChannelType } = require('discord.js')
-const log = require('../classes/Logger.js');
-const { fillRectRadius } = require('../utils/canvasUtils.js');
-const { groundChannel } = require('../utils/channelsUtils.js');
-const fetch = require('node-fetch');
-const { stringAndNumsFormat, checkAndConvertOfType } = require('../utils/stringAndNumsFormat.js');
+
+
 
 function hexToDec (hex) {
     let dec = 0;
@@ -63,7 +57,6 @@ function hexToDec (hex) {
 
 
 function decToHex (dec) {
-    log(`dec: ${dec}`)
     let hexChars = [];
     if(dec >= 16) {
         hexChars.unshift(`${dec % 16}`);
@@ -122,7 +115,6 @@ function decToHex (dec) {
 
 
     
-    log(hexChars.join(''))
     let hex = hexChars.join('');
     return hex;
     
@@ -136,17 +128,14 @@ const test = new Command(client, {
 }, async (client, message, args) => {
     const date = new Date();
     const colorLight = '4878CC', colorDark = '000C18';
-    const timeString = date.toLocaleTimeString('uk-UA');
+    const timeString = date.toLocaleTimeString('uk-UA', { timeZone: 'Europe/Kiev' });
     const middleHour = 12;
     const maxDifference = (24 - middleHour) * 60;
 
     let difference = Math.abs(Number(timeString.slice(0, 2)) - middleHour) * 60 + Number(timeString.slice(3, 5));
-    log(difference);
 
     const redL = colorLight.slice(0, 2), greenL = colorLight.slice(2, 4), blueL = colorLight.slice(4, 6);
-    log(`${redL} ${greenL} ${blueL}`);
     const redD = colorDark.slice(0, 2), greenD = colorDark.slice(2, 4), blueD = colorDark.slice(4, 6);
-    log(`${redD} ${greenD} ${blueD}`);
 
     let red = decToHex(Math.floor((1 - difference/maxDifference) * (Math.abs(hexToDec(redL) - hexToDec(redD) + hexToDec(redD)))));
     let green = decToHex(Math.floor((1 - difference/maxDifference) * (Math.abs(hexToDec(greenL) - hexToDec(greenD) + hexToDec(greenD)))));
