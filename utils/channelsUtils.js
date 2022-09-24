@@ -11,7 +11,7 @@ async function groundChannel (client, name, data = {}, primary = true) {
         data.type = data.type == undefined ? 'GUILD_TEXT' : data.type;
         
 
-        if(data.type != 'GUILD_TEXT' && data.type != 'GUILD_VOICE' && 
+        /*if(data.type != 'GUILD_TEXT' && data.type != 'GUILD_VOICE' && 
         data.type != 'GUILD_CATEGORY' && data.type != 'GUILD_NEWS' && 
         data.type != 'GUILD_STORE' && data.type != 'GUILD_NEWS_THREAD' && 
         data.type != 'GUILD_PUBLIC_THREAD' && data.type != 'GUILD_PRIVATE_THREAD' && 
@@ -33,7 +33,7 @@ async function groundChannel (client, name, data = {}, primary = true) {
             case 'GUILD_PRIVATE_THREAD':
                 data.type = 12;
                 break;
-        }
+        }*/
 
         let channel = channels.find(channel => {
             if(channel.name.toString().toLowerCase() === name.toLowerCase() && channel.type === data.type) return true;
