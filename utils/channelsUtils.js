@@ -45,7 +45,7 @@ async function groundChannel (client, name, data = {}, primary = true) {
             await channel.edit(data)
             return channel;
         } else {
-            channel = await client.guild.channels.create(data);
+            channel = await client.guild.channels.create({name: data.name, type: data.type});
             return channel;
         }
     //} catch (error) {
