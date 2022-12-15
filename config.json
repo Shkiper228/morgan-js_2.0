@@ -3,9 +3,9 @@
         "guild" : "704383751224033301",
         "owner" : "506215900836265995",   
     
-        "commands_path": "commands",
-        "events_path": "events",
-        "books_path" : "books",
+        "commands_path": "/commands",
+        "events_path": "/events",
+        "books_path" : "/books",
     
         "main_link": "https://discord.gg/RprqnXR57u",
         "prefix": "$",
