@@ -103,12 +103,17 @@ class Morgan extends Client {
 
 		fs.readdirSync(`${path}`).forEach((file, index) => {
 			if(file.endsWith('.js')) {
-				const cname = file.substring(0, file.length-3).toLowerCase();
-				const command = require(`../${path}/${file.toString()}`);
-				this.commands[cname] = command;
-				this.commands[index] = command;
+				try {
+					const cname = file.substring(0, file.length-3).toLowerCase();
+					const command = require(`../${path}/${file.toString()}`);
+					this.commands[cname] = command;
+					this.commands[index] = command;
 
-				log(`\tКоманду ${file.toLowerCase().substring(0, file.length-3)} завантажено`);
+					log(`\tКоманду ${file.toLowerCase().substring(0, file.length-3)} завантажено`);
+				} catch (error) {
+					log(`\tКоманду ${file.toLowerCase().substring(0, file.length-3)} не вийшло завантажити із помилкою: ${error}`, 'error')
+				}
+				
 			}
 		})
 		log('Усі команди завантажено')
