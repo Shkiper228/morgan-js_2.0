@@ -313,20 +313,23 @@ class Morgan extends Client {
 		)
 
 		this.connection.query('SELECT * FROM privat_channels', (err, rows) => {
-			console.log(rows);
-			rows.forEach(async (channel) => {
-				try {
-					const voice = await this.guild.channels.fetch(channel.id)
-					if(voice.members.size != 0) {
-						this.privat_voices.push({channel: voice, owner: channel.owner});
-					} else {
+			if(rows[0]) {
+				console.log(rows);
+				rows.forEach(async (channel) => {
+					try {
+						const voice = await this.guild.channels.fetch(channel.id)
+						if(voice.members.size != 0) {
+							this.privat_voices.push({channel: voice, owner: channel.owner});
+						} else {
+							this.connection.query(`DELETE FROM privat_channels WHERE id = ${channel.id}`)
+							voice.delete();
+						}
+					} catch {
 						this.connection.query(`DELETE FROM privat_channels WHERE id = ${channel.id}`)
-						voice.delete();
 					}
-				} catch {
-					this.connection.query(`DELETE FROM privat_channels WHERE id = ${channel.id}`)
-				}
-			})
+				})
+			}
+			
 		})
 	}
 
