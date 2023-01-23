@@ -31,7 +31,7 @@ async function random_reaction(client, message) {
 
 async function updateXP(client, message, member) {
     client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
-        if(rows) {
+        if(rows[0]) {
             let expForNextLvl = 0;
             for(let i = 1; i < rows[0].level + 1; i++){
                 expForNextLvl += (5 * Math.pow(i, 2)) + (50 * i) + 100;
