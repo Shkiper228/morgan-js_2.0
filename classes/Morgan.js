@@ -158,6 +158,7 @@ class Morgan extends Client {
 
 		this.connection = await mysql.createConnection({
 			host: process.env.DB_HOST != undefined ? process.env.DB_HOST : require('../secret.json').DB_HOST,
+			port: process.env.DB_PORT != undefined ? process.env.DB_PORT : require('../secret.json').DB_PORT,
 			user: process.env.DB_USERNAME != undefined ? process.env.DB_USERNAME : require('../secret.json').DB_USERNAME,
 			password: process.env.DB_PASSWORD != undefined ? process.env.DB_PASSWORD : require('../secret.json').DB_PASSWORD,
 			database: process.env.DB_DATABASE != undefined ? process.env.DB_DATABASE : require('../secret.json').DB_DATABASE
@@ -313,7 +314,7 @@ class Morgan extends Client {
 		)
 
 		this.connection.query('SELECT * FROM privat_channels', (err, rows) => {
-			if(rows[0]) {
+			if(rows && rows[0]) {
 				console.log(rows);
 				rows.forEach(async (channel) => {
 					try {
