@@ -12,7 +12,7 @@ class ScheduledEventHandler{
     init () {
         this.client.connection.query(`INSERT INTO scheduledEventActivities (id, name, creationTimestamp, info) VALUES(${this.scheduledEvent.id}, \"${this.scheduledEvent.name}\", ${Date.now() / 1000}, '{\"members\": []}')`)
 
-        this.loop = setInterval(this.handler.bind(this), 60000);
+        this.loop = setInterval(this.handler.bind(this), 6000/*0*/);
     }
 
     handler () {
@@ -35,15 +35,11 @@ class ScheduledEventHandler{
                     }
                 });
 
-                console.log(handlered_info = JSON.stringify(handlered_info).replace(/"/g, '\"'));
+                handlered_info = JSON.stringify(handlered_info)
+                //console.log(handlered_info);
                 this.client.connection.query(`UPDATE scheduledEventActivities SET info = '${handlered_info}' WHERE id = ${this.scheduledEvent.id}`)
             })
 
-            
-
-           /* members.forEach(member => {
-                
-            })*/
         } else {
             this.client.connection.query(`UPDATE scheduledEventActivities SET isEnded = 1 WHERE id = ${this.scheduledEvent.id}`)
 
