@@ -22,7 +22,7 @@ class ScheduledEventHandler{
             this.client.connection.query(`SELECT * FROM scheduledEventActivities WHERE id = ${this.scheduledEvent.id}`, (errors, rows) => {
                 dbInfo = rows[0].info;
                 let handlered_info = dbInfo;
-                console.log(dbInfo.members)
+                //console.log(dbInfo.members)
 
                 members.forEach(member => {
                     let searched_member = handlered_info.members.find(dbMember => member.user.id == dbMember.id ? true : undefined)
