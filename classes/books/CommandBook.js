@@ -12,6 +12,7 @@ class CommandBook extends Book {
         this.name = name;
         this.description = text;
         this.functions = [];
+        this.temp = {};
 
         if(!client.commandBooks) client.commandBooks = [];
         this.index = client.commandBooks.length;

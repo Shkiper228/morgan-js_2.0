@@ -27,14 +27,34 @@ const events = new Command(client, {
 
         const eventInfo = new CommandBook(client, message.channel, undefined, 'Список зареєстрованих подій', `Використовуйте реакції, аби перегортати сторінки. Список раніше зареєстрованих подій:\n\n${list_str}\n\tСторінка:0`)
         eventInfo.page = 0;
-        eventInfo.events = rows
-        //eventInfo.emojis = ['⬅️', '➡️'];
+        eventInfo.eventArray = rows;
+        eventInfo.emojis = ['⬅️', '➡️'];
         
         eventInfo.functions.push(async () => {
-            if(this.events.page < 1) return;
+            //console.log(eventInfo.eventArray)
+            if(eventInfo.page < 1) return;
+            if(eventInfo.page == 1) {
+                eventInfo.page--;
+                let list_str = '';
+                rows.forEach((event, index) => {
+                    list_str += `${index + 1}. \`${event.name}\n\t${event.description}\nРозпочався:\t${new Date(event.creationTimestamp).toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' })}\nЗавершено:\t${event.isEnded == 0 ? '❌' : '✅'}\`\n\n`
+                })
+            
+                if(rows.length == 0) {
+                    list_str = 'Покищо немає';
+                }
 
-            this.page--;
-            const membersDB_list = this.events[this.page].info.members
+                eventInfo.message.edit({embeds: [{
+                    title: 'Список зареєстрованих подій',
+                    description: `Використовуйте реакції, аби перегортати сторінки. Список раніше зареєстрованих подій:\n\n${list_str}\n\tСторінка:0`
+                }]})
+
+                return;
+                
+            }
+
+            eventInfo.page--;
+            const membersDB_list = eventInfo.eventArray[eventInfo.page - 1].info.members
             let members_list_str = '';
             
             
@@ -44,26 +64,24 @@ const events = new Command(client, {
                 members_list_str += `\`${member.nickname != null ? member.nickname : member.user.username}:\` ${memberDB.time}хв. \n`
             })
             
-            this.message.edit({embeds: [{
-                title: this.events[this.page].name,
-                description: `Опис: \t\`${this.events[this.page].description != undefined ? this.events[this.page].description : 'немає'}\`\nДата і час створення: \t\`${this.events[this.page].creationTimestamp != undefined ? new Date(this.events[this.page].creationTimestamp).toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' }) : 'невідомо'}\`\nСтатус: \t\`${this.events[this.page].isEnded == 1 ? 'Завершено❌' : 'Ще триває✅'}\`\n Учасники:\n${members_list_str}\n\n\n\t${this.page}`,
+            eventInfo.message.edit({embeds: [{
+                title: eventInfo.eventArray[eventInfo.page - 1].name,
+                description: `Опис: \t\`${eventInfo.eventArray[eventInfo.page - 1].description != undefined ? eventInfo.eventArray[eventInfo.page - 1].description : 'немає'}\`\nДата і час створення: \t\`${eventInfo.eventArray[eventInfo.page - 1].creationTimestamp != undefined ? new Date(eventInfo.eventArray[eventInfo.page - 1].creationTimestamp).toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' }) : 'невідомо'}\`\nСтатус: \t\`${eventInfo.eventArray[eventInfo.page - 1].isEnded == 1 ? 'Завершено❌' : 'Ще триває✅'}\`\n Учасники:\n${members_list_str}\n\n\n\t${eventInfo.page}`,
                 color: '#004B4B'
             }]})
 
-
-            await this.message.reactions.removeAll();
-            await this.message.react(this.emojis[this.emojis.length - 1]);
-
-            for(let i = 0; i < this.length; i++){
-                this.message.react(this.emojis[i]);
-            }
+            
+            await eventInfo.message.reactions.removeAll();
+            eventInfo.message.react(eventInfo.emojis[0]);
+            eventInfo.message.react(eventInfo.emojis[1]);
         })
 
         eventInfo.functions.push(async () => {
-            if(this.events.page >= this.events.length) return;
+            //console.log(eventInfo.eventArray)
+            if(eventInfo.page >= eventInfo.eventArray.length) return;
 
-            this.page++;
-            const membersDB_list = this.events[this.page].info.members
+            eventInfo.page++;
+            const membersDB_list = eventInfo.eventArray[eventInfo.page - 1].info.members
             let members_list_str = '';
             
             
@@ -73,19 +91,16 @@ const events = new Command(client, {
                 members_list_str += `\`${member.nickname != null ? member.nickname : member.user.username}:\` ${memberDB.time}хв. \n`
             })
             
-            this.message.edit({embeds: [{
-                title: this.events[this.page].name,
-                description: `Опис: \t\`${this.events[this.page].description != undefined ? this.events[this.page].description : 'немає'}\`\nДата і час створення: \t\`${this.events[this.page].creationTimestamp != undefined ? new Date(this.events[this.page].creationTimestamp).toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' }) : 'невідомо'}\`\nСтатус: \t\`${this.events[this.page].isEnded == 1 ? 'Завершено❌' : 'Ще триває✅'}\`\n Учасники:\n${members_list_str}\n\n\n\t${this.page}`,
+            eventInfo.message.edit({embeds: [{
+                title: eventInfo.eventArray[eventInfo.page - 1].name,
+                description: `Опис: \t\`${eventInfo.eventArray[eventInfo.page - 1].description != undefined ? eventInfo.eventArray[eventInfo.page - 1].description : 'немає'}\`\nДата і час створення: \t\`${eventInfo.eventArray[eventInfo.page - 1].creationTimestamp != undefined ? new Date(eventInfo.eventArray[eventInfo.page - 1].creationTimestamp).toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' }) : 'невідомо'}\`\nСтатус: \t\`${eventInfo.eventArray[eventInfo.page - 1].isEnded == 1 ? 'Завершено❌' : 'Ще триває✅'}\`\n Учасники:\n${members_list_str}\n\n\n\t${eventInfo.page}`,
                 color: '#004B4B'
             }]})
 
-
-            await this.message.reactions.removeAll();
-            await this.message.react(this.emojis[this.emojis.length - 1]);
-
-            for(let i = 0; i < this.length; i++){
-                this.message.react(this.emojis[i]);
-            }
+            
+            await eventInfo.message.reactions.removeAll();
+            eventInfo.message.react(eventInfo.emojis[0]);
+            eventInfo.message.react(eventInfo.emojis[1]);
         })
 
         eventInfo.start()
