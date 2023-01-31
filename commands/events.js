@@ -28,7 +28,7 @@ const events = new Command(client, {
         const eventInfo = new CommandBook(client, message.channel, undefined, 'Список зареєстрованих подій', `Використовуйте реакції, аби перегортати сторінки. Список раніше зареєстрованих подій:\n\n${list_str}\n\tСторінка:0`)
         eventInfo.page = 0;
         eventInfo.events = rows
-        eventInfo.emojis = ['⬅️', '➡️'];
+        //eventInfo.emojis = ['⬅️', '➡️'];
         
         eventInfo.functions.push(async () => {
             if(this.events.page < 1) return;
@@ -50,7 +50,7 @@ const events = new Command(client, {
                 color: '#004B4B'
             }]})
 
-            
+
             await this.message.reactions.removeAll();
             await this.message.react(this.emojis[this.emojis.length - 1]);
 
@@ -79,7 +79,7 @@ const events = new Command(client, {
                 color: '#004B4B'
             }]})
 
-            
+
             await this.message.reactions.removeAll();
             await this.message.react(this.emojis[this.emojis.length - 1]);
 
