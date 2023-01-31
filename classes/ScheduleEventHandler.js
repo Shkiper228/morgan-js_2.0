@@ -10,7 +10,7 @@ class ScheduledEventHandler{
     }
 
     init () {
-        this.client.connection.query(`INSERT INTO scheduledEventActivities (id, name, creationTimestamp, info) VALUES(${this.scheduledEvent.id}, \"${this.scheduledEvent.name}\", ${Date.now() / 1000}, '{\"members\": []}')`)
+        this.client.connection.query(`INSERT INTO scheduledEventActivities (id, name, description, creationTimestamp, info) VALUES(${this.scheduledEvent.id}, \"${this.scheduledEvent.name}\", \"${this.scheduledEvent.description}\", ${Date.now()}, '{\"members\": []}')`)
 
         this.loop = setInterval(this.handler.bind(this), 60000);
     }
