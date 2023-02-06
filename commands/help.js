@@ -11,7 +11,7 @@ const help = new Command(client, {
     
     let description = '';
     client.commands.forEach((command, index) => {
-        description += `${index + 1}. ${client.commands[index].name} ${this.enable == true ? ' ' : '- ВИМКНЕНО!!!!'}\n**${client.commands[index].description}**\n\`${client.commands[index].syntax}\`\n\n`;
+        description += `${index + 1}. ${client.commands[index].name} ${client.commands[index].enable == true ? ' ' : '- ВИМКНЕНО!!!!'}\n**${client.commands[index].description}**\n\`${client.commands[index].syntax}\`\n\n`;
     });
 
     await message.channel.send({embeds: [{
