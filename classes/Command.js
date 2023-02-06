@@ -1,3 +1,5 @@
+const log = require('../classes/Logger.js');
+
 class Command {
     constructor(client ,{
         name = '',
