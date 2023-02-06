@@ -8,7 +8,8 @@ const jump = new Command(client, {
     description: 'Команда що перестрибувати на певну позицію в музичній черзі',
     syntax: `${client.config.prefix}jump <позиція трека>`,
     ownerOnly: false,
-    adminOnly: false
+    adminOnly: false,
+    enable: false
 }, async (client, message, args) => {
     const member = await client.guild.members.fetch(message.author.id);
     const memberBot = await client.guild.members.fetch(client.user.id);

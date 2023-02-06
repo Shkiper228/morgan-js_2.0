@@ -13,7 +13,8 @@ const test = new Command(client, {
     name: 'test',
     description: 'Тестова команда',
     ownerOnly: false,
-    adminOnly: false
+    adminOnly: false,
+    enable: false
 }, async (client, message, args) => {
 	log(checkAndConvertOfType('1.1', 'number'));
 })

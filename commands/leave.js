@@ -6,7 +6,8 @@ const leave = new Command(client, {
     name: 'leave',
     description: 'Дає вказівку боту, аби він покинув голосовий канал, у якому знаходиться',
     ownerOnly: false,
-    adminOnly: false
+    adminOnly: false,
+    enable: false
 }, async (client, message, args) => {
     const member = await client.guild.members.fetch(message.author.id);
     const memberBot = await client.guild.members.fetch(client.user.id);

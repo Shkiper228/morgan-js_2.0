@@ -4,7 +4,8 @@ class Command {
         description = '',
         syntax = `${client.config.prefix}${name}`,
         ownerOnly = false,
-        adminOnly = false
+        adminOnly = false,
+        enable = true
     }, run) 
     
     {
@@ -13,7 +14,15 @@ class Command {
         this.syntax = syntax;
         this.ownerOnly = ownerOnly;
         this.adminOnly = adminOnly;
-        this.run = run;
+        if (enable) {
+            this.run = run;
+        } else {
+            this.run = (client, message, args) => {
+                log('Була спроба викликати вимкнену команду', 'warning')
+                message.channel.send(`Команду ${this.name} вимкнено`)
+            }
+        }
+        
     }
 }
 

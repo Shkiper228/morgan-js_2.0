@@ -6,7 +6,8 @@ const stop = new Command(client, {
     name: 'stop',
     description: 'Команда для видалення музичної черги',
     ownerOnly: false,
-    adminOnly: false
+    adminOnly: false,
+    enable: false
 }, async (client, message, args) => {
     const member = await client.guild.members.fetch(message.author.id);
     const memberBot = await client.guild.members.fetch(client.user.id);

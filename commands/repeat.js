@@ -7,7 +7,8 @@ const repeat = new Command(client, {
     description: 'Змінює режим повторення',
     syntax: `${client.config.prefix}repeat [вимкнути(n), одиночний(o), черга(q), авто(a)]`,
     ownerOnly: false,
-    adminOnly: false
+    adminOnly: false,
+    enable: false
 }, async (client, message, args) => {
     const member = await client.guild.members.fetch(message.author.id);
     const memberBot = await client.guild.members.fetch(client.user.id);
