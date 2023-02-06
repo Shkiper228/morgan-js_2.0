@@ -21,7 +21,7 @@ class Command {
         } else {
             this.run = (client, message, args) => {
                 log('Була спроба викликати вимкнену команду', 'warning')
-                message.channel.send(`Команду ${this.name} вимкнено`)
+                //message.channel.send(`Команду \`${this.name}\` вимкнено`)
             }
         }
         
