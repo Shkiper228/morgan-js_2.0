@@ -96,11 +96,11 @@ class Morgan extends Client {
 
 		const autoRole_message = await createOrFindMessage(this, this.begin_channel, {embeds: [{
 			title: 'Автороль',
-			description: 'Бажаєте отримати роль @minecraft ?\nНажміть реакцію щоб отримати її\nВи новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила <#704384154925662280>\nТа деяку загальну інформацію <#842853700237656135>\nНажміть реакцію для верифікації',
+			description: 'Бажаєте отримати роль @minecraft ?\nНажміть реакцію щоб отримати її',
 			color: '#004B4B'
 		}]})
 
-		const autoRole_book = new CommandBook(this, this.begin_channel, autoRole_message, 'Автороль', 'Бажаєте отримати роль @minecraft ?\nНажміть реакцію щоб отримати її\nВи новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила <#704384154925662280>\nТа деяку загальну інформацію <#842853700237656135>\nНажміть реакцію для верифікації', '#77B255')
+		const autoRole_book = new CommandBook(this, this.begin_channel, autoRole_message, 'Автороль', 'Бажаєте отримати роль @minecraft ?\nНажміть реакцію щоб отримати її', '#77B255')
 		autoRole_book.functions.push(async (user) => {
 			const member = await begin_book.message.guild.members.fetch(user.id);
         	const roles = member.roles;
