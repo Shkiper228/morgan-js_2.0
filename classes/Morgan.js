@@ -93,6 +93,22 @@ class Morgan extends Client {
 
 		begin_book.emojis = ['✅'];
 		begin_book.start();
+
+		const autoRole_message = await createOrFindMessage(this, this.begin_channel, {embeds: [{
+			title: 'Автороль',
+			description: 'Бажаєте отримати роль @minecraft ?\nНажміть реакцію щоб отримати її\nВи новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила <#704384154925662280>\nТа деяку загальну інформацію <#842853700237656135>\nНажміть реакцію для верифікації',
+			color: '#004B4B'
+		}]})
+
+		const autoRole_book = new CommandBook(this, this.begin_channel, autoRole_message, 'Автороль', 'Бажаєте отримати роль @minecraft ?\nНажміть реакцію щоб отримати її\nВи новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила <#704384154925662280>\nТа деяку загальну інформацію <#842853700237656135>\nНажміть реакцію для верифікації', '#77B255')
+		autoRole_book.functions.push(async (user) => {
+			const member = await begin_book.message.guild.members.fetch(user.id);
+        	const roles = member.roles;
+        	await roles.add('723441701884133397', 'Автороль майнкрафт'); //замінити
+		})
+
+		autoRole_book.emojis = ['⛏️'];
+		autoRole_book.start();
 		//await begin_message.reactions.removeAll();
 		//await begin_message.react('✅');
 		
