@@ -107,7 +107,13 @@ class Morgan extends Client {
         	await roles.add('723441701884133397', 'Автороль майнкрафт'); //замінити
 		})
 
-		autoRole_book.emojis = ['⛏️'];
+		autoRole_book.functions.push(async (user) => {
+			const member = await begin_book.message.guild.members.fetch(user.id);
+        	const roles = member.roles;
+        	await roles.remove('723441701884133397', 'Автороль майнкрафт'); //замінити
+		})
+
+		autoRole_book.emojis = ['⛏️', '❌'];
 		autoRole_book.start();
 		//await begin_message.reactions.removeAll();
 		//await begin_message.react('✅');
