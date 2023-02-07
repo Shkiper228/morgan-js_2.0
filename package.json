@@ -23,9 +23,10 @@
     "discord-player": "^5.2.2",
     "discord.js": "^13.6.0",
     "ffmpeg": "^0.0.4",
+    "ffmpeg-static": "^4.4.1",
     "mysql": "^2.18.1",
     "mysql2": "^3.0.1",
     "node-fetch": "^2.6.6",
-    "ytdl-core": "^4.11.0"
+    "ytdl-core": "^4.11.2"
   }
 }

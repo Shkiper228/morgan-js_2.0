@@ -3,6 +3,7 @@ const mysql = require('mysql2');
 const fs = require('fs');
 const { groundChannel, createOrFindMessage } = require('../utils/channelsUtils.js');
 const InfoBook = require('../classes/books/InfoBook.js');
+const CommandBook = require('../classes/books/CommandBook.js')
 const log = require('../classes/Logger.js');
 const Timer = require('../classes/Timer.js');
 const { Player } = require('discord-player');
@@ -82,8 +83,18 @@ class Morgan extends Client {
 			description: 'Ласкаво просимо на сервері! \nВи новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила <#704384154925662280>\nТа деяку загальну інформацію <#842853700237656135>\nНажміть реакцію для верифікації',
 			color: '#004B4B'
 		}]})
-		await begin_message.reactions.removeAll();
-		await begin_message.react('✅');
+
+		const begin_book = new CommandBook(this, this.begin_channel, begin_message, 'Верифікація', 'Ласкаво просимо на сервері! \nВи новачок, тож не верифіковані і не можете повноцінно перебувати на сервері.\nЩоб верифікуватись прочитайте правила <#704384154925662280>\nТа деяку загальну інформацію <#842853700237656135>\nНажміть реакцію для верифікації', '#004B4B')
+		begin_book.functions.push(async (user) => {
+			const member = await begin_book.message.guild.members.fetch(user.id);
+        	const roles = member.roles;
+        	await roles.add('704691487857704980', 'Верифікувався'); //замінити
+		})
+
+		begin_book.emojis = ['✅'];
+		begin_book.start();
+		//await begin_message.reactions.removeAll();
+		//await begin_message.react('✅');
 		
 		//users channel
 		this.users_channel = await groundChannel(this, '📗users');

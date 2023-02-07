@@ -5,7 +5,7 @@ const Book = require('./Book.js');
 
 
 class CommandBook extends Book {
-    constructor (client, channel, message, name, text ) {
+    constructor (client, channel, message, name, text, color = '#202225') {
         super(client, channel.id);
         this.channel = channel;
         this.message = message;
@@ -13,6 +13,7 @@ class CommandBook extends Book {
         this.description = text;
         this.functions = [];
         this.temp = {};
+        this.color = color;
 
         if(!client.commandBooks) client.commandBooks = [];
         this.index = client.commandBooks.length;
@@ -23,12 +24,14 @@ class CommandBook extends Book {
         if(!this.message){
             this.message = await this.channel.send({embeds: [{
                 title: this.name,
-                description: this.description
+                description: this.description,
+                color: this.color    
             }]})
         } else {
             this.message = await this.message.edit({embeds: [{
                 title: this.name,
-                description: this.description
+                description: this.description,
+                color: this.color
             }]})
         }
         
