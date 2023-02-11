@@ -16,7 +16,7 @@ class ScheduledEventHandler{
     }
 
     handler () {
-        if(this.scheduledEvent.isActive()) {
+        if(this.scheduledEvent.isActive() && this.scheduledEvent.channel) {
             const members = this.scheduledEvent.channel.members;
             let dbInfo;
             this.client.connection.query(`SELECT * FROM scheduledEventActivities WHERE id = ${this.scheduledEvent.id}`, (errors, rows) => {
