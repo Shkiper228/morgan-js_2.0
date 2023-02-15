@@ -31,7 +31,7 @@ function getDaysMonthYears(days, month, year) {
 }
 
 class Timer {
-    constructor(client, time, channelId, title, description, sender, color, id = -1, isReg = false) {
+    constructor(client, time, channelId, title, description, sender, color, id = -1, isReg = false, func = (args) => {}) {
         this.client = client;
         this.time = Number(time); //хвилин
         this.channelId = channelId;
@@ -41,6 +41,7 @@ class Timer {
         this.color = color;
         this.id = id;
         this.isReg = isReg;
+        this.func = func;
 
         this.init();
     }
@@ -118,6 +119,7 @@ class Timer {
                     title: this.title,
                     description: this.description
                 }]})
+            this.func(args)
             this.remove();
         }, amountMin * 1000)
 

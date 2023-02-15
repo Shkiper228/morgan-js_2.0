@@ -13,7 +13,22 @@ async function bump_check(client, message) {
             color: '#43B582'
         }]})
 
-        new Timer(client, 4*60, message.channelId, 'Пора бампити!', `Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера`, `${bumper}`, '43B582');
+        new Timer(client, 1, message.channelId, 'Пора бампити!', `Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера`, `${bumper}`, '43B582', id = -1, isReg = false, func = async (undefined) => {
+            const guild = message.guild
+            const administrators = [];
+            administrators[0] = await guild.roles.fetch(client.config.leader).members
+            administrators[1] = await guild.roles.fetch(client.config.admin).members
+            administrators[2] = await guild.roles.fetch(client.config.support).members
+
+            administrators.forEach( role => {
+                role.forEach(member => {
+                    if(bumper.slice(2,-1) != member.id.toString())
+                    member.send({embeds: [{
+                        description: 'Якщо ти побачив(-ла) це повідомлення - напиши мені (Шкіперу). Я тестую модифікацію системи бамп сповіщень'
+                    }]})
+                })
+            })
+        });
     }
 }
 
