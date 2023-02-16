@@ -17,17 +17,31 @@ async function bump_check(client, message) {
             const guild = message.guild
             const administrators = [];
             administrators[0] = await guild.roles.fetch(client.config.leader).members
-            administrators[1] = await guild.roles.fetch(client.config.admin).members
-            administrators[2] = await guild.roles.fetch(client.config.support).members
-
-            administrators.forEach( role => {
-                role.forEach(member => {
-                    if(bumper.slice(2,-1) != member.id.toString())
+            administrators[0].forEach(member => {
+                if(bumper.slice(2,-1) != member.id.toString()) {
                     member.send({embeds: [{
                         description: 'Якщо ти побачив(-ла) це повідомлення - напиши мені (Шкіперу). Я тестую модифікацію системи бамп сповіщень'
                     }]})
-                })
+                }
+            })    
+
+            administrators[1] = await guild.roles.fetch(client.config.admin).members
+            administrators[1].forEach(member => {
+                if(bumper.slice(2,-1) != member.id.toString()) {
+                    member.send({embeds: [{
+                        description: 'Якщо ти побачив(-ла) це повідомлення - напиши мені (Шкіперу). Я тестую модифікацію системи бамп сповіщень'
+                    }]})
+                }
             })
+
+            administrators[2] = await guild.roles.fetch(client.config.support).members
+            administrators[2].forEach(member => {
+                if(bumper.slice(2,-1) != member.id.toString()) {
+                    member.send({embeds: [{
+                        description: 'Якщо ти побачив(-ла) це повідомлення - напиши мені (Шкіперу). Я тестую модифікацію системи бамп сповіщень'
+                    }]})
+                }
+            })            
         });
     }
 }
