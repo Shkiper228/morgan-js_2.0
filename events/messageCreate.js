@@ -16,29 +16,33 @@ async function bump_check(client, message) {
         new Timer(client, 4*60, message.channelId, 'Пора бампити!', `Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера`, `${bumper}`, '43B582', id = -1, isReg = false, func = async () => {
             const guild = message.guild
             const administrators = [];
-            administrators[0] = await guild.roles.fetch(client.config.leader).members
+            const leader = await guild.roles.fetch(client.config.leader)
+            administrators[0] = leader.members
             administrators[0].forEach(member => {
                 if(bumper.slice(2,-1) != member.id.toString()) {
                     member.send({embeds: [{
-                        description: 'Якщо ти побачив(-ла) це повідомлення - напиши мені (Шкіперу). Я тестую модифікацію системи бамп сповіщень'
+                        title: 'Пора бампити!',
+                        description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                     }]})
                 }
             })    
-
-            administrators[1] = await guild.roles.fetch(client.config.admin).members
+            const admin = await guild.roles.fetch(client.config.admin)
+            administrators[1] = admin.members
             administrators[1].forEach(member => {
                 if(bumper.slice(2,-1) != member.id.toString()) {
                     member.send({embeds: [{
-                        description: 'Якщо ти побачив(-ла) це повідомлення - напиши мені (Шкіперу). Я тестую модифікацію системи бамп сповіщень'
+                        title: 'Пора бампити!',
+                        description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                     }]})
                 }
             })
-
-            administrators[2] = await guild.roles.fetch(client.config.support).members
+            const support = await guild.roles.fetch(client.config.support)
+            administrators[2] = support.members
             administrators[2].forEach(member => {
                 if(bumper.slice(2,-1) != member.id.toString()) {
                     member.send({embeds: [{
-                        description: 'Якщо ти побачив(-ла) це повідомлення - напиши мені (Шкіперу). Я тестую модифікацію системи бамп сповіщень'
+                        title: 'Пора бампити!',
+                        description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                     }]})
                 }
             })            
