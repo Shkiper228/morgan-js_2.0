@@ -8,6 +8,7 @@ async function bump_check(client, message) {
         log(message.embeds[0].color);
         const bumper = await client.guild.members.fetch(message.embeds[0].description.slice(message.embeds[0].description.indexOf('<@') + 2, message.embeds[0].description.indexOf('<@') + 20))
 
+
         await message.channel.send({embeds:[{
             description: `${bumper} бамп успішний. Таймер запущено`,
             color: '#43B582'
@@ -19,7 +20,7 @@ async function bump_check(client, message) {
             const leader = await guild.roles.fetch(client.config.leader)
             administrators[0] = leader.members
             administrators[0].forEach(member => {
-                if(bumper.slice(2,-1) != member.id.toString()) {
+                if(bumper.id != member.id.toString()) {
                     member.send({embeds: [{
                         title: 'Пора бампити!',
                         description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
@@ -29,7 +30,7 @@ async function bump_check(client, message) {
             const admin = await guild.roles.fetch(client.config.admin)
             administrators[1] = admin.members
             administrators[1].forEach(member => {
-                if(bumper.slice(2,-1) != member.id.toString()) {
+                if(bumper.id != member.id.toString()) {
                     member.send({embeds: [{
                         title: 'Пора бампити!',
                         description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
@@ -39,7 +40,7 @@ async function bump_check(client, message) {
             const support = await guild.roles.fetch(client.config.support)
             administrators[2] = support.members
             administrators[2].forEach(member => {
-                if(bumper.slice(2,-1) != member.id.toString()) {
+                if(bumper.id != member.id.toString()) {
                     member.send({embeds: [{
                         title: 'Пора бампити!',
                         description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
