@@ -26,7 +26,9 @@ async function bump_check(client, message) {
                             title: 'Пора бампити!',
                             description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                         }]})
-                    } catch (e) {}
+                    } catch (e) {
+                        log(`Не вийшло написати --> ${member.nickname}`, 'error')
+                    }
                 }
             })    
             const admin = await guild.roles.fetch(client.config.admin)
@@ -38,7 +40,9 @@ async function bump_check(client, message) {
                             title: 'Пора бампити!',
                             description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                         }]})
-                    } catch (e) {}
+                    } catch (e) {
+                        log(`Не вийшло написати --> ${member.nickname}`, 'error')
+                    }
                 }
             })
             const support = await guild.roles.fetch(client.config.support)
@@ -50,7 +54,9 @@ async function bump_check(client, message) {
                             title: 'Пора бампити!',
                             description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                         }]})
-                    } catch (e) {}
+                    } catch (e) {
+                        log(`Не вийшло написати --> ${member.nickname}`, 'error')
+                    }
                 }
             })            
         });
