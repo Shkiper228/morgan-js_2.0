@@ -21,42 +21,30 @@ async function bump_check(client, message) {
             administrators[0] = leader.members
             administrators[0].forEach(member => {
                 if(bumper.id != member.id.toString()) {
-                    try{
-                        member.send({embeds: [{
-                            title: 'Пора бампити!',
-                            description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
-                        }]})
-                    } catch (e) {
-                        log(`Не вийшло написати --> ${member.nickname}`, 'error')
-                    }
+                    member.send({embeds: [{
+                        title: 'Пора бампити!',
+                        description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
+                    }]}).catch (e => log(`Не вийшло написати --> ${member.nickname}`, 'error'))
                 }
             })    
             const admin = await guild.roles.fetch(client.config.admin)
             administrators[1] = admin.members
             administrators[1].forEach(member => {
                 if(bumper.id != member.id.toString()) {
-                    try{
-                        member.send({embeds: [{
-                            title: 'Пора бампити!',
-                            description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
-                        }]})
-                    } catch (e) {
-                        log(`Не вийшло написати --> ${member.nickname}`, 'error')
-                    }
+                    member.send({embeds: [{
+                        title: 'Пора бампити!',
+                        description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
+                    }]}).catch (e => log(`Не вийшло написати --> ${member.nickname}`, 'error'))
                 }
             })
             const support = await guild.roles.fetch(client.config.support)
             administrators[2] = support.members
             administrators[2].forEach(member => {
                 if(bumper.id != member.id.toString()) {
-                    try{
-                        member.send({embeds: [{
-                            title: 'Пора бампити!',
-                            description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
-                        }]})
-                    } catch (e) {
-                        log(`Не вийшло написати --> ${member.nickname}`, 'error')
-                    }
+                    member.send({embeds: [{
+                        title: 'Пора бампити!',
+                        description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
+                    }]}).catch (e => log(`Не вийшло написати --> ${member.nickname}`, 'error'))
                 }
             })            
         });
