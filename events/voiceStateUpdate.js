@@ -10,9 +10,14 @@ const voiceStateUpdate = new Event(client, async (oldState, newState) => {
 
     client.privat_voices.forEach(async (voice, index) => {
         if(oldState.channelId == voice.channel.id && oldState.channel.members.size == 0) {
-            client.connection.query(`DELETE FROM privat_channels WHERE id=${voice.channel.id}`)
-            await voice.channel.delete();
-            client.privat_voices.splice(index, 1)
+            try {
+                client.connection.query(`DELETE FROM privat_channels WHERE id=${voice.channel.id}`)
+                await voice.channel.delete();
+                client.privat_voices.splice(index, 1)
+            } catch (error) {
+                
+            }
+            
         }
     });
 });
