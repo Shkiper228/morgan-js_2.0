@@ -72,7 +72,7 @@ class Morgan extends Client {
 
 	async initPrimaryChannels() {
 		//welcome
-		this.begin_channel = await groundChannel(this, '✅welcome');
+		this.begin_channel = await groundChannel(this, '✅верифікація');
 		await this.begin_channel.permissionOverwrites.create(this.guild.roles.everyone, {
 			'VIEW_CHANNEL': true,
 			'SEND_MESSAGES': false,
@@ -119,7 +119,7 @@ class Morgan extends Client {
 		//await begin_message.react('✅');
 		
 		//users channel
-		this.users_channel = await groundChannel(this, '📗users');
+		this.users_channel = await groundChannel(this, '📗користувачі');
 		await this.users_channel.permissionOverwrites.create(this.guild.roles.everyone, {
 			'VIEW_CHANNEL': true,
 			'SEND_MESSAGES': false,
