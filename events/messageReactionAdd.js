@@ -32,7 +32,6 @@ const messageReactionAdd = new Event(client, async (messageReaction, user) => {
             messageReaction.users.remove(user);
             book.functions[index](user);
             
-            
             return;
         }
     })

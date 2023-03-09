@@ -36,6 +36,7 @@ class CommandBook extends Book {
         }
         
 
+        await this.message.reactions.removeAll();
         for(let i = 0; i < this.functions.length; i++) {
             this.message.react(this.emojis[i]);
         }

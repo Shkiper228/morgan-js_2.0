@@ -127,7 +127,7 @@ async function check_adds(client, message, member) {
             }]})
 
 
-            member.ban({reason: 'Реклама посторонніх діскорд серверів'})
+            member.ban({reason: 'Реклама посторонніх діскорд серверів', days: 1})
                 .catch(async () => {
                     log(`Не вдалось забанити порушника ${message.author} під ніком ${message.author.username}. Щось пішло не так`, 'error')
                     err = true;
