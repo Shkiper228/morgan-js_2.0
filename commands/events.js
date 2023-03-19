@@ -40,6 +40,7 @@ const events = new Command(client, {
                 eventInfo.page--;
                 let list_str = '';
                 rows.forEach((event, index) => {
+                    if(index > 4) return
                     list_str += `${index + 1}. \`${event.name}\n\t${event.description}\nРозпочався:\t${new Date(event.creationTimestamp).toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' })}\nЗавершено:\t${event.isEnded == 0 ? '❌' : '✅'}\`\n\n`
                 })
             
