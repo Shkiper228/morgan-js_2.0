@@ -72,11 +72,6 @@ const events = new Command(client, {
                 description: `Опис: \t\`${eventInfo.eventArray[eventInfo.page - 1].description != undefined ? eventInfo.eventArray[eventInfo.page - 1].description : 'немає'}\`\nДата і час створення: \t\`${eventInfo.eventArray[eventInfo.page - 1].creationTimestamp != undefined ? new Date(eventInfo.eventArray[eventInfo.page - 1].creationTimestamp).toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' }) : 'невідомо'}\`\nСтатус: \t\`${eventInfo.eventArray[eventInfo.page - 1].isEnded == 1 ? 'Завершено❌' : 'Ще триває✅'}\`\n Учасники:\n${members_list_str}\n\n\n\t${eventInfo.page}`,
                 color: '#004B4B'
             }]})
-
-            
-            await eventInfo.message.reactions.removeAll();
-            eventInfo.message.react(eventInfo.emojis[0]);
-            eventInfo.message.react(eventInfo.emojis[1]);
         })
 
         eventInfo.functions.push(async () => {
@@ -99,11 +94,6 @@ const events = new Command(client, {
                 description: `Опис: \t\`${eventInfo.eventArray[eventInfo.page - 1].description != undefined ? eventInfo.eventArray[eventInfo.page - 1].description : 'немає'}\`\nДата і час створення: \t\`${eventInfo.eventArray[eventInfo.page - 1].creationTimestamp != undefined ? new Date(eventInfo.eventArray[eventInfo.page - 1].creationTimestamp).toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' }) : 'невідомо'}\`\nСтатус: \t\`${eventInfo.eventArray[eventInfo.page - 1].isEnded == 1 ? 'Завершено❌' : 'Ще триває✅'}\`\n Учасники:\n${members_list_str}\n\n\n\t${eventInfo.page}`,
                 color: '#004B4B'
             }]})
-
-            
-            await eventInfo.message.reactions.removeAll();
-            eventInfo.message.react(eventInfo.emojis[0]);
-            eventInfo.message.react(eventInfo.emojis[1]);
         })
 
         eventInfo.start()
