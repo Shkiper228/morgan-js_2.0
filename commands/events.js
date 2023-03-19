@@ -18,8 +18,11 @@ const events = new Command(client, {
 
         let list_str = '';
         rows.forEach((event, index) => {
+            if(index > 4) return
             list_str += `${index + 1}. \`${event.name}\n\t${event.description}\nРозпочався:\t${new Date(event.creationTimestamp).toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' })}\nЗавершено:\t${event.isEnded == 0 ? '❌' : '✅'}\`\n\n`
         })
+
+        list_str += `\nКількість зареєстрованих подій: ${rows.length}`
 
         if(rows.length == 0) {
             list_str = 'Покищо немає';
