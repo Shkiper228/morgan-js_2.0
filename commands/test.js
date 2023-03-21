@@ -16,37 +16,26 @@ const test = new Command(client, {
     adminOnly: false,
     enable: true
 }, async (client, message, args) => {
-	log(checkAndConvertOfType('1.1', 'number'));
+	//log(checkAndConvertOfType('1.1', 'number'));
 
-    const guild = message.guild
-    const administrators = [];
-    const leader = await guild.roles.fetch(client.config.leader)
-    administrators[0] = leader.members
-    administrators[0].forEach(member => {
-        if(bumper.slice(2,-1) != member.id.toString()) {
-            member.send({embeds: [{
-                description: 'Якщо ти побачив(-ла) це повідомлення - напиши мені (Шкіперу). Я тестую модифікацію системи бамп сповіщень'
-            }]})
-        }
-    })    
-    const admin = await guild.roles.fetch(client.config.admin)
-    administrators[1] = admin.members
-    administrators[1].forEach(member => {
-        if(bumper.slice(2,-1) != member.id.toString()) {
-            member.send({embeds: [{
-                description: 'Якщо ти побачив(-ла) це повідомлення - напиши мені (Шкіперу). Я тестую модифікацію системи бамп сповіщень'
-            }]})
-        }
-    })
-    const support = await guild.roles.fetch(client.config.support)
-    administrators[2] = support.members
-    administrators[2].forEach(member => {
-        if(bumper.slice(2,-1) != member.id.toString()) {
-            member.send({embeds: [{
-                description: 'Якщо ти побачив(-ла) це повідомлення - напиши мені (Шкіперу). Я тестую модифікацію системи бамп сповіщень'
-            }]})
-        }
-    })            
+    /*const channel = message.channel
+    await channel.send({embeds: [{
+        title: '1._/Контент\\_',
+        color: 0x161616,
+        description: `1) Заборонено контент порнографічного характеру. Покарання: бан
+            2) Заборонено флуд. Новачків, які флудять, караємо баном
+            3) Заборонено розповсюдження конфіденційної та чутливої інформації інших людей, без їх дозволу
+            4) Заборонено пожирювати потенціно шкідливий та просто шкідливий чи небезпечний софт (віруси) та чіти для ігор. Покарання: бан
+            5) На цьому сервері є тематичні текстові канали. Потрібно відправляйти повідомлення у відповідні канали в залежності від вмісту повідомлення. Назва і опис кожного текстового каналу однозначно вказує, для якого вмісту він створений. При порушенні і відхилення прохання видалити нерелевантне повідомлення - видається роль @pig.`
+    }]})
+
+    await channel.send({embeds: [{
+        title: '2._/Реклама\\_',
+        color: 0x161616,
+        description: `1) Заборонено розповсюджувати рекламу без дозволу @admin або @leader. Рекламою вважається посилання на інші спільноти будь яких соціальних мереж, блогів
+        2) Винятком є \`YouTube\` канали, пов'язані із популяризацією культури, історії, політичного контенту чи науки українською. Такі канали можна поширювати в каналі <#704388054928064652>
+        3) Якщо ви бажаєте запропонувати рекламу - звертайтесь до адміністраторів: @leader, @admin, @support`
+    }]})*/
 })
 
 module.exports = test;
