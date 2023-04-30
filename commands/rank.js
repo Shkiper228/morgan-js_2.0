@@ -90,7 +90,7 @@ async function formatRankCard(client, canvas, member, message) {
         context.font = '22px sans-serif';
         context.fillText(`Досвід: ${cutNum(sortedArr[indexAuthor].experience)}`, padding * 2 + 5 + avatar.width + 15, padding * 2 + 75)
         context.fillText(`Повідомлення: ${cutNum(sortedArr[indexAuthor].messages)}`, padding * 2 + 5 + avatar.width + 200, padding * 2 + 80)
-        context.fillText(`В голосових: ${cutNum(sortedArr[indexAuthor].in_voice)}`, padding * 2 + 5 + avatar.width + 140, padding * 2 + 135)
+        context.fillText(`В голосових: ${cutNum(sortedArr[indexAuthor].in_voice)}`, padding * 2 + 5 + avatar.width + 130, padding * 2 + 125)
 
         //format message
         const attachment = new MessageAttachment(canvas.toBuffer(), 'profile-image.png');
