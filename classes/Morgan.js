@@ -68,6 +68,17 @@ class Morgan extends Client {
 		await this.dbConnection();
 		await this.regTimers();
 		await this.regChannels();
+
+		let in_voice_counter = setInterval(async () => {
+			const channels = await this.guild.channels.fetch();
+			channels.forEach(channel => {
+				if(channel.isVoice()) {
+					channel.members.forEach(member => {
+						this.connection.query(`UPDATE members SET in_voice = in_voice + 1 WHERE id = ${member.id}`)
+					})
+				}
+			})
+		}, 1000*60)
 	}
 
 	async initPrimaryChannels() {
@@ -217,10 +228,10 @@ class Morgan extends Client {
 			messages INT NOT NULL DEFAULT 0 ,
 			experience INT NOT NULL DEFAULT 0 ,
 			level INT NOT NULL DEFAULT 0 ,
-			money INT NOT NULL DEFAULT 0,
+			in_voice INT NOT NULL DEFAULT 0,
 			PRIMARY KEY (ID)
 			)`
-			)
+			)/*money INT NOT NULL DEFAULT 0,*/
 		const members = await this.guild.members.fetch();
 		members.forEach(member => {
 			if(!member.user.bot) {
