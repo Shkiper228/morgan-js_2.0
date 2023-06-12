@@ -29,7 +29,7 @@ class Morgan extends Client {
 		
 		this.InfoBook = [];
 		this.privat_voices = [];
-		
+		this.arithmeticExpression;
     }
 
 	async init() {

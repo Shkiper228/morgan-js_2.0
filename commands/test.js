@@ -7,19 +7,21 @@ const { fillRectRadius } = require('../utils/canvasUtils.js');
 const { groundChannel } = require('../utils/channelsUtils.js');
 const fetch = require('node-fetch');
 const { stringAndNumsFormat, checkAndConvertOfType } = require('../utils/stringAndNumsFormat.js');
+const ArithmeticExpressions = require('../classes/ArithmeticExpressions.js');
 
 
 const test = new Command(client, {
     name: 'test',
     description: 'Тестова команда',
-    ownerOnly: true,
+    ownerOnly: false,
     adminOnly: false,
     enable: true
 }, async (client, message, args) => {
     const channel = message.channel
-    const message = channel.messages.fetch(718168220623700060)
+    const AE = new ArithmeticExpressions(channel);
+    client.arithmeticExpression = AE
     
-    await message.edit({embeds: [{
+    /*await message.edit({embeds: [{
         title: 'Правила',
         color: 0x004B4B,
         fields: [{
@@ -52,7 +54,7 @@ const test = new Command(client, {
             \`2)\` За непризнання агресії РФ в бік України, окупацію нею українських земель карається баном
             \`3)\` Поширення злісних російських пропагандистських тезисів. Покарання: попередження, бан`
         }]
-    }]})
+    }]})*/
 })
 
 module.exports = test;

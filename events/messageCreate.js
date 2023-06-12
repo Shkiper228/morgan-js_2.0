@@ -1,7 +1,8 @@
 const Event = require('../classes/Event.js');
 const log = require('../classes/Logger.js');
 const Timer = require('../classes/Timer.js');
-
+const ErrorAlarm = require('../classes/ErrorAlarm.js');
+const ArithmeticExpressions = require('../classes/ArithmeticExpressions.js');
 
 async function bump_check(client, message) {
     if(message.author.id === '315926021457051650' && message.embeds[0].description.indexOf('Server bumped by') != -1){
@@ -51,9 +52,9 @@ async function bump_check(client, message) {
     }
 }
 
-async function random_reaction(client, message) {
-    const chance = 4;
-    if(Math.ceil(Math.random()*100) <= chance && await client.guild.emojis.cache.size > 0){
+async function random_reaction_arithmeticExpression(client, message) {
+    const reaction_chance = 4;
+    if(Math.ceil(Math.random()*100) <= reaction_chance && await client.guild.emojis.cache.size > 0){
         const emojis = await client.guild.emojis.fetch();
         
         message.react(emojis.random());
@@ -61,33 +62,45 @@ async function random_reaction(client, message) {
     } else if(await client.guild.emojis.cache.size == 0) {
         log('На сервері немає емодзі, тому випадкові реакції під повідомленнями неможливі. Якщо ви хочете, аби вона запрацювали - добавте емодзі на сервері', 'warning')
     }
+
+    const arithmetic_chance = 5;
+    if(Math.ceil(Math.random*100) <= arithmetic_chance) {
+        const AE = new ArithmeticExpressions(message.channel);
+        client.arithmeticExpression = AE
+    }
+    
+    
 }
 
 async function updateXP(client, message, member) {
-    client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
-        if(rows[0]) {
-            let expForNextLvl = 0;
-            for(let i = 1; i < rows[0].level + 1; i++){
-                expForNextLvl += (5 * Math.pow(i, 2)) + (50 * i) + 100;
-                
-            }
+    const prefix = client.config.prefix;
+    if(!message.content.toLowerCase().startsWith(prefix)) {
+        client.connection.query(`SELECT * FROM members WHERE id = ${message.author.id}`, async (error, rows) => {
+            if(rows[0]) {
+                let expForNextLvl = 0;
+                for(let i = 1; i < rows[0].level + 1; i++){
+                    expForNextLvl += (5 * Math.pow(i, 2)) + (50 * i) + 100;
 
-            const exp = rows[0].experience;
-            if(exp >= expForNextLvl) {
-                rows[0].level++;
-                const console = await client.guild.channels.fetch(client.config.console);
-                await console.send({
-                    content: `${member}`,
-                    embeds: [{
-                        description: `Ви досягнули ${rows[0].level} рівень! Вітаєм!`,
-                        color: '#2D7144'
-                    }]
-                })
-            };
-            client.connection.query(`UPDATE members SET experience = ${exp + Math.floor(Math.random() * 10) + 15}, 
-            level = ${rows[0].level}, messages = ${rows[0].messages + 1} WHERE id = ${message.author.id}`)
-        }
-    })
+                }
+
+                const exp = rows[0].experience;
+                if(exp >= expForNextLvl) {
+                    rows[0].level++;
+                    const console = await client.guild.channels.fetch(client.config.console);
+                    await console.send({
+                        content: `${member}`,
+                        embeds: [{
+                            description: `Ви досягнули ${rows[0].level} рівень! Вітаєм!`,
+                            color: '#2D7144'
+                        }]
+                    })
+                };
+                client.connection.query(`UPDATE members SET experience = ${exp + Math.floor(Math.random() * 10) + 15}, 
+                level = ${rows[0].level}, messages = ${rows[0].messages + 1} WHERE id = ${message.author.id}`)
+            }
+        })
+    }
+    
 }
 
 
@@ -146,6 +159,32 @@ async function check_adds(client, message, member) {
     }
 }
 
+async function arithmeticExpressionsCheck(client, message, member) {
+    if(client.arithmeticExpression){ 
+        if(message.content.split('').filter(e => e.trim().length).join('') == client.arithmeticExpression.answer.toString()) {
+            const greeting = new ErrorAlarm({
+                description:`${member} перший відповів(-ла) правильно! За це він(вона) отримає \`10\` досвіду!`,
+                color: '#00ff00', 
+                channel: message.channel
+            })
+
+
+            setTimeout(() => {
+                try{ 
+                    greeting.message.delete()
+                    message.delete()
+                    client.arithmeticExpression.message.delete()
+                    client.arithmeticExpression = undefined
+                } catch{
+
+                }
+            }, 10000)
+            client.connection.query(`UPDATE members SET experience = experience + 10 WHERE id = ${message.author.id}`)
+            
+            
+        }
+    }
+}
 
 async function command_handler(client, message, member) {
     const prefix = client.config.prefix;
@@ -177,6 +216,7 @@ async function command_handler(client, message, member) {
 
 
 
+
 const messageCreate = new Event(client, async message => {
     //bump check
     bump_check(client, message);
@@ -190,7 +230,7 @@ const messageCreate = new Event(client, async message => {
 
 
     //random reaction
-    random_reaction(client, message);
+    random_reaction_arithmeticExpression(client, message);
 
     
     //updateXP
@@ -200,7 +240,8 @@ const messageCreate = new Event(client, async message => {
     //check adds
     check_adds(client, message, member);
     
-
+    //check arithmetic answer
+    arithmeticExpressionsCheck(client, message, member);
     
     //commands handler
     const prefix = client.config.prefix;
