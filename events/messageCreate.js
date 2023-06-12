@@ -163,7 +163,7 @@ async function arithmeticExpressionsCheck(client, message, member) {
     if(client.arithmeticExpression){ 
         if(message.content.split('').filter(e => e.trim().length).join('') == client.arithmeticExpression.answer.toString()) {
             const greeting = new ErrorAlarm({
-                description:`${member} перший відповів(-ла) правильно! За це він(вона) отримає \`10\` досвіду!`,
+                description:`${member} перший відповів(-ла) правильно! За це він(вона) отримає \`200\` досвіду!`,
                 color: '#00ff00', 
                 channel: message.channel
             })
@@ -179,7 +179,7 @@ async function arithmeticExpressionsCheck(client, message, member) {
 
                 }
             }, 10000)
-            client.connection.query(`UPDATE members SET experience = experience + 10 WHERE id = ${message.author.id}`)
+            client.connection.query(`UPDATE members SET experience = experience + 200 WHERE id = ${message.author.id}`)
             
             
         }
