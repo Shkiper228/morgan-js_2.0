@@ -64,7 +64,7 @@ async function random_reaction_arithmeticExpression(client, message) {
     }
 
     const arithmetic_chance = 5;
-    if(Math.ceil(Math.random*100) <= arithmetic_chance) {
+    if(Math.ceil(Math.random()*100) <= arithmetic_chance) {
         const AE = new ArithmeticExpressions(message.channel);
         client.arithmeticExpression = AE
     }
