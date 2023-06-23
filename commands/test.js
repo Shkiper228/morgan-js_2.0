@@ -13,7 +13,7 @@ const ArithmeticExpressions = require('../classes/ArithmeticExpressions.js');
 const test = new Command(client, {
     name: 'test',
     description: 'Тестова команда',
-    ownerOnly: false,
+    ownerOnly: true,
     adminOnly: false,
     enable: true
 }, async (client, message, args) => {
