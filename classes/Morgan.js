@@ -71,8 +71,9 @@ class Morgan extends Client {
 
 		let in_voice_counter = setInterval(async () => {
 			const channels = await this.guild.channels.fetch();
+			console.log(channels)
 			channels.forEach(channel => {
-				if(channel.isVoice()) {
+				if(channel != null && channel.isVoice()) {
 					channel.members.forEach(member => {
 						this.connection.query(`UPDATE members SET in_voice = in_voice + 1 WHERE id = ${member.id}`)
 					})
