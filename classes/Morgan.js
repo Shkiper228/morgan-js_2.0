@@ -84,7 +84,7 @@ class Morgan extends Client {
 
 	async initPrimaryChannels() {
 		//welcome
-		this.begin_channel = await groundChannel(this, '✅верифікація');
+		/*this.begin_channel = await groundChannel(this, '✅верифікація');
 		await this.begin_channel.permissionOverwrites.create(this.guild.roles.everyone, {
 			'VIEW_CHANNEL': true,
 			'SEND_MESSAGES': false,
@@ -126,7 +126,7 @@ class Morgan extends Client {
 		})
 
 		autoRole_book.emojis = ['⛏️', '❌'];
-		autoRole_book.start();
+		autoRole_book.start();*/
 		//await begin_message.reactions.removeAll();
 		//await begin_message.react('✅');
 		

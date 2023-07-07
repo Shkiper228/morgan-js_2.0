@@ -17,6 +17,9 @@ const guildMemberAdd = new Event(client, async (member) => {
             })
         }
     })
+
+    const roles = member.roles;
+    await roles.add('704691487857704980', 'Верифікувався'); //замінити
 });
 
 module.exports = guildMemberAdd;
