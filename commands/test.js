@@ -18,10 +18,9 @@ const test = new Command(client, {
     enable: true
 }, async (client, message, args) => {
     const channel = message.channel
-    const AE = new ArithmeticExpressions(channel);
-    client.arithmeticExpression = AE
-    
-    /*await message.edit({embeds: [{
+    const msg = await channel.fetch(1088042694141558785)
+
+    await msg.edit({embeds: [{
         title: 'Правила',
         color: 0x004B4B,
         fields: [{
@@ -54,7 +53,7 @@ const test = new Command(client, {
             \`2)\` За непризнання агресії РФ в бік України, окупацію нею українських земель карається баном
             \`3)\` Поширення злісних російських пропагандистських тезисів. Покарання: попередження, бан`
         }]
-    }]})*/
+    }]})
 })
 
 module.exports = test;

@@ -3,6 +3,7 @@ const log = require('../classes/Logger.js');
 const Timer = require('../classes/Timer.js');
 const ErrorAlarm = require('../classes/ErrorAlarm.js');
 const ArithmeticExpressions = require('../classes/ArithmeticExpressions.js');
+const { BaseGuildTextChannel } = require('discord.js');
 
 async function bump_check(client, message) {
     if(message.author.id === '315926021457051650' && message.embeds[0].description.indexOf('Server bumped by') != -1){
@@ -53,23 +54,24 @@ async function bump_check(client, message) {
 }
 
 async function random_reaction_arithmeticExpression(client, message) {
-    const reaction_chance = 4;
-    if(Math.ceil(Math.random()*100) <= reaction_chance && await client.guild.emojis.cache.size > 0){
-        const emojis = await client.guild.emojis.fetch();
-        
-        message.react(emojis.random());
+    log(`У цьому каналі message.channel.type = ${message.channel.type}`)
+    if(message.channel.type == 'GUILD_TEXT'){
+        const reaction_chance = 5;
+        if(Math.ceil(Math.random()*100) <= reaction_chance && await client.guild.emojis.cache.size > 0){
+            const emojis = await client.guild.emojis.fetch();
 
-    } else if(await client.guild.emojis.cache.size == 0) {
-        log('На сервері немає емодзі, тому випадкові реакції під повідомленнями неможливі. Якщо ви хочете, аби вона запрацювали - добавте емодзі на сервері', 'warning')
-    }
+            message.react(emojis.random());
 
-    const arithmetic_chance = 5;
-    if(Math.ceil(Math.random()*100) <= arithmetic_chance) {
-        const AE = new ArithmeticExpressions(message.channel);
-        client.arithmeticExpression = AE
+        } else if(await client.guild.emojis.cache.size == 0) {
+            log('На сервері немає емодзі, тому випадкові реакції під повідомленнями неможливі. Якщо ви хочете, аби вона запрацювали - добавте емодзі на сервері', 'warning')
+        }
+
+        const arithmetic_chance = 3;
+        if(Math.ceil(Math.random()*100) <= arithmetic_chance) {
+            const AE = new ArithmeticExpressions(message.channel);
+            client.arithmeticExpression = AE
+        }
     }
-    
-    
 }
 
 async function updateXP(client, message, member) {
@@ -163,25 +165,11 @@ async function arithmeticExpressionsCheck(client, message, member) {
     if(client.arithmeticExpression){ 
         if(message.content.split('').filter(e => e.trim().length).join('') == client.arithmeticExpression.answer.toString()) {
             const greeting = new ErrorAlarm({
-                description:`${member} перший відповів(-ла) правильно! За це він(вона) отримає \`200\` досвіду!`,
+                description:`${member} перший відповів(-ла) правильно! За це він(вона) отримає \`100\` досвіду!`,
                 color: '#00ff00', 
                 channel: message.channel
             })
-
-
-            setTimeout(() => {
-                try{ 
-                    greeting.message.delete()
-                    message.delete()
-                    client.arithmeticExpression.message.delete()
-                    client.arithmeticExpression = undefined
-                } catch{
-
-                }
-            }, 10000)
-            client.connection.query(`UPDATE members SET experience = experience + 200 WHERE id = ${message.author.id}`)
-            
-            
+            client.connection.query(`UPDATE members SET experience = experience + 100 WHERE id = ${message.author.id}`)
         }
     }
 }
