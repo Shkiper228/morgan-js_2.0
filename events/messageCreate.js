@@ -23,30 +23,42 @@ async function bump_check(client, message) {
             administrators[0] = leader.members
             administrators[0].forEach(member => {
                 if(bumper.id != member.id.toString()) {
-                    member.send({embeds: [{
+                    const message = member.send({embeds: [{
                         title: 'Пора бампити!',
                         description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                     }]}).catch (e => log(`Не вийшло написати --> ${member.nickname}`, 'error'))
+
+                    setTimeout(() => {
+                        message.delete()
+                    }, 10000)
                 }
             })    
             const admin = await guild.roles.fetch(client.config.admin)
             administrators[1] = admin.members
             administrators[1].forEach(member => {
                 if(bumper.id != member.id.toString()) {
-                    member.send({embeds: [{
+                    const message = member.send({embeds: [{
                         title: 'Пора бампити!',
                         description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                     }]}).catch (e => log(`Не вийшло написати --> ${member.nickname}`, 'error'))
+
+                    setTimeout(() => {
+                        message.delete()
+                    }, 10000)
                 }
             })
             const support = await guild.roles.fetch(client.config.support)
             administrators[2] = support.members
             administrators[2].forEach(member => {
                 if(bumper.id != member.id.toString()) {
-                    member.send({embeds: [{
+                    const message = member.send({embeds: [{
                         title: 'Пора бампити!',
                         description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                     }]}).catch (e => log(`Не вийшло написати --> ${member.nickname}`, 'error'))
+
+                    setTimeout(() => {
+                        message.delete()
+                    }, 10000)
                 }
             })            
         });
@@ -54,7 +66,6 @@ async function bump_check(client, message) {
 }
 
 async function random_reaction_arithmeticExpression(client, message) {
-    log(`У цьому каналі message.channel.type = ${message.channel.type}`)
     if(message.channel.type == 'GUILD_TEXT'){
         const reaction_chance = 5;
         if(Math.ceil(Math.random()*100) <= reaction_chance && await client.guild.emojis.cache.size > 0){

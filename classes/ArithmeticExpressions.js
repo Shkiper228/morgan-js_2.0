@@ -24,7 +24,7 @@ class ArithmeticExpressions {
                 this.expression = `${this.nums[0]} ${this.operator} ${this.nums[1]} = ?`
                 break;
             case 3:
-                this.nums[1] = Math.floor(Math.random()*100)/10
+                this.nums[1] = (Math.floor(Math.random()*100)/10).toFixed(1)
                 this.nums[0] = this.nums[1] * Math.floor(Math.random()*20)
                 this.answer = this.nums[0] / this.nums[1]
                 this.expression = `${this.nums[0]} ${this.operator} ${this.nums[1]} = ?`

@@ -17,10 +17,9 @@ const test = new Command(client, {
     adminOnly: false,
     enable: true
 }, async (client, message, args) => {
-    const channel = message.channel
-    const msg = await channel.fetch(1088042694141558785)
+    const msg = await message.channel.fetch(1128802606861533225)
 
-    await msg.edit({embeds: [{
+    message.channel.send({embeds: [{
         title: 'Правила',
         color: 0x004B4B,
         fields: [{
