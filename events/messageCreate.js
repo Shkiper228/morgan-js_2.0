@@ -21,43 +21,43 @@ async function bump_check(client, message) {
             const administrators = [];
             const leader = await guild.roles.fetch(client.config.leader)
             administrators[0] = leader.members
-            administrators[0].forEach(member => {
+            administrators[0].forEach(async member => {
                 if(bumper.id != member.id.toString()) {
-                    const message = member.send({embeds: [{
+                    const message = await member.send({embeds: [{
                         title: 'Пора бампити!',
                         description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                     }]}).catch (e => log(`Не вийшло написати --> ${member.nickname}`, 'error'))
 
-                    setTimeout(() => {
-                        message.delete()
+                    setTimeout(async () => {
+                        await message.delete()
                     }, 10000)
                 }
             })    
             const admin = await guild.roles.fetch(client.config.admin)
             administrators[1] = admin.members
-            administrators[1].forEach(member => {
+            administrators[1].forEach(async member => {
                 if(bumper.id != member.id.toString()) {
-                    const message = member.send({embeds: [{
+                    const message = await member.send({embeds: [{
                         title: 'Пора бампити!',
                         description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                     }]}).catch (e => log(`Не вийшло написати --> ${member.nickname}`, 'error'))
 
-                    setTimeout(() => {
-                        message.delete()
+                    setTimeout(async () => {
+                        await message.delete()
                     }, 10000)
                 }
             })
             const support = await guild.roles.fetch(client.config.support)
             administrators[2] = support.members
-            administrators[2].forEach(member => {
+            administrators[2].forEach(async member => {
                 if(bumper.id != member.id.toString()) {
-                    const message = member.send({embeds: [{
+                    const message = await member.send({embeds: [{
                         title: 'Пора бампити!',
                         description: 'Час для наступного бампу пройшов\nПопросіть кого-небудь зробити бамп сервера'
                     }]}).catch (e => log(`Не вийшло написати --> ${member.nickname}`, 'error'))
 
-                    setTimeout(() => {
-                        message.delete()
+                    setTimeout(async () => {
+                        await message.delete()
                     }, 10000)
                 }
             })            
