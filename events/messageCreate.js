@@ -173,14 +173,19 @@ async function check_adds(client, message, member) {
 }
 
 async function arithmeticExpressionsCheck(client, message, member) {
-    if(client.arithmeticExpression){ 
+    if(client.arithmeticExpression && !client.arithmeticExpression.isResolved){ 
         if(message.content.split('').filter(e => e.trim().length).join('') == client.arithmeticExpression.answer.toString()) {
+            client.arithmeticExpression.isResolved = true
             const greeting = new ErrorAlarm({
                 description:`${member} перший відповів(-ла) правильно! За це він(вона) отримає \`100\` досвіду!`,
                 color: '#00ff00', 
                 channel: message.channel
             })
             client.connection.query(`UPDATE members SET experience = experience + 100 WHERE id = ${message.author.id}`)
+        }
+    } else if(client.arithmeticExpression && client.arithmeticExpression.isResolved) {
+        if(message.content.split('').filter(e => e.trim().length).join('') == client.arithmeticExpression.answer.toString()) {
+            message.channel.send(`${message.author.id == '981851891086544926' ? `${message.author} сосати` : `${message.author} минула арифметична задачка вже виконана`}`)
         }
     }
 }

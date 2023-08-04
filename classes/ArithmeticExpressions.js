@@ -4,6 +4,7 @@ class ArithmeticExpressions {
         const operators = ['+', '-', '*', '/', '^'];
         this.operator = operators[Math.floor(Math.random()*5)];
         this.nums = [];
+        this.isResolved = false;
         switch (operators.indexOf(this.operator)){
             case 0:
                 this.nums[0] = Math.floor(Math.random()*1000)
